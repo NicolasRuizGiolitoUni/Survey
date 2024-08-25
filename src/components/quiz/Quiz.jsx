@@ -1,17 +1,19 @@
+// src/components/Quiz.js
 import React, { useState, useEffect } from "react";
 import "./Quiz.css";
 import { data } from "../../assets/data/data";
+import Questionnaire from "./Questionnaire";
+import Intro from "./Intro";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [openAnswer, setOpenAnswer] = useState("");
   const [responses, setResponses] = useState([]);
-  const [followUpIndex, setFollowUpIndex] = useState(null);
+  const [started, setStarted] = useState(false);
 
   const question = data[index];
   const currentResponse = responses[index];
-  const followUpQuestion = followUpIndex !== null ? data[followUpIndex] : null;
 
   useEffect(() => {
     if (question) {
@@ -35,19 +37,6 @@ const Quiz = () => {
     }
   }, [index, responses, question]);
 
-  useEffect(() => {
-    if (question && question.followUp) {
-      const condition = question.followUp.condition;
-      if (responses[index]?.answer === condition) {
-        setFollowUpIndex(index + 1);
-      } else {
-        setFollowUpIndex(null);
-      }
-    } else {
-      setFollowUpIndex(null);
-    }
-  }, [index, responses, question]);
-
   const handleNext = () => {
     if (index >= data.length - 1) {
       console.log("Quiz completed");
@@ -55,15 +44,9 @@ const Quiz = () => {
     }
 
     if (index < data.length - 1) {
-      if (followUpIndex !== null) {
-        setIndex(followUpIndex);
-      } else {
-        setIndex(index + 1);
-      }
+      setIndex(index + 1);
       setSelectedAnswers([]);
       setOpenAnswer("");
-
-      // Log the current responses
       console.log("Current Responses:", responses);
     }
   };
@@ -76,25 +59,24 @@ const Quiz = () => {
     }
   };
 
-  const handleAnswerSelection = (i, isFollowUp = false) => {
-    const questionToUpdate = isFollowUp ? followUpQuestion : question;
-    if (questionToUpdate) {
-      const selectedText = questionToUpdate.answers[i].text;
+  const handleAnswerSelection = (i) => {
+    if (question) {
+      const selectedText = question.answers[i].text;
       const updatedResponses = [...responses];
 
-      if (questionToUpdate.type === "multiple") {
+      if (question.type === "multiple") {
         updatedResponses[index] = {
-          question: questionToUpdate.question,
+          question: question.question,
           answer: selectedText,
         };
-      } else if (questionToUpdate.type === "checkbox") {
+      } else if (question.type === "checkbox") {
         const currentAnswer = updatedResponses[index]?.answer || [];
         const newAnswer = currentAnswer.includes(selectedText)
           ? currentAnswer.filter((answer) => answer !== selectedText)
           : [...currentAnswer, selectedText];
 
         updatedResponses[index] = {
-          question: questionToUpdate.question,
+          question: question.question,
           answer: newAnswer,
         };
       }
@@ -103,7 +85,7 @@ const Quiz = () => {
     }
   };
 
-  const handleOpenAnswer = (e, isFollowUp = false) => {
+  const handleOpenAnswer = (e) => {
     const updatedResponses = [...responses];
 
     if (question) {
@@ -129,143 +111,33 @@ const Quiz = () => {
     return false;
   };
 
+  const handleStart = () => {
+    setStarted(true);
+  };
+
   return (
     <div className="app-container">
       <div className="center-container">
         <div className="header">
           <h1>Not-Too-Dumb Phone Survey</h1>
         </div>
-        <div className="card">
-          {question && (
-            <>
-              <h2>
-                {index + 1}. {question.question}
-              </h2>
 
-              {question.subquestion && (
-                <p className="subquestion">{question.subquestion}</p>
-              )}
-
-              {question.type === "multiple" && (
-                <ul>
-                  {question.answers.map((answer, i) => (
-                    <li
-                      key={i}
-                      className={`answer ${
-                        selectedAnswers.includes(answer.text) ? "selected" : ""
-                      }`}
-                      onClick={() => handleAnswerSelection(i)}
-                    >
-                      {answer.text}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {question.type === "checkbox" && (
-                <ul>
-                  {question.answers.map((answer, i) => (
-                    <li
-                      key={i}
-                      className={`answer ${
-                        selectedAnswers.includes(answer.text) ? "selected" : ""
-                      }`}
-                      onClick={() => handleAnswerSelection(i)}
-                    >
-                      {answer.text}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {question.type === "open" && (
-                <textarea
-                  className="open-answer"
-                  placeholder={question.placeholder}
-                  value={openAnswer}
-                  onChange={(e) => handleOpenAnswer(e)}
-                />
-              )}
-
-              {followUpIndex !== null && followUpQuestion && (
-                <div className="follow-up">
-                  <h2>{followUpQuestion.question}</h2>
-                  {followUpQuestion.type === "multiple" && (
-                    <ul>
-                      {followUpQuestion.answers.map((answer, i) => (
-                        <li
-                          key={i}
-                          className={`answer ${
-                            responses[followUpIndex]?.answer === answer.text
-                              ? "selected"
-                              : ""
-                          }`}
-                          onClick={() => handleAnswerSelection(i, true)}
-                        >
-                          {answer.text}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {followUpQuestion.type === "checkbox" && (
-                    <ul>
-                      {followUpQuestion.answers.map((answer, i) => (
-                        <li
-                          key={i}
-                          className={`answer ${
-                            (responses[followUpIndex]?.answer || []).includes(
-                              answer.text
-                            )
-                              ? "selected"
-                              : ""
-                          }`}
-                          onClick={() => handleAnswerSelection(i, true)}
-                        >
-                          {answer.text}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {followUpQuestion.type === "open" && (
-                    <textarea
-                      className="open-answer"
-                      placeholder={followUpQuestion.placeholder}
-                      value={responses[followUpIndex]?.answer || ""}
-                      onChange={(e) => handleOpenAnswer(e, true)}
-                    />
-                  )}
-                </div>
-              )}
-            </>
-          )}
-
-          <div className="buttons-container">
-            <button
-              onClick={handleBack}
-              disabled={index === 0}
-              className={`nav-button ${index === 0 ? "disabled" : "enabled"}`}
-            >
-              <span className="material-symbols-outlined">arrow_back</span>
-            </button>
-            <button
-              onClick={handleNext}
-              disabled={!isNextButtonEnabled()}
-              className={`nav-button ${
-                !isNextButtonEnabled() ? "disabled" : "enabled"
-              }`}
-            >
-              <span className="material-symbols-outlined">arrow_forward</span>
-            </button>
-          </div>
-
-          <div className="progress-bar">
-            <p>
-              Question {index + 1} of {data.length}
-            </p>
-          </div>
-        </div>
+        {!started ? (
+          <Intro onStart={handleStart} />
+        ) : (
+          <Questionnaire
+            question={question}
+            index={index}
+            selectedAnswers={selectedAnswers}
+            openAnswer={openAnswer}
+            handleAnswerSelection={handleAnswerSelection}
+            handleOpenAnswer={handleOpenAnswer}
+            handleBack={handleBack}
+            handleNext={handleNext}
+            isNextButtonEnabled={isNextButtonEnabled}
+            totalQuestions={data.length} // Pass total number of questions
+          />
+        )}
       </div>
     </div>
   );

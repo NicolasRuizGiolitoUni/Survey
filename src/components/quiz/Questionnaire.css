@@ -1,10 +1,3 @@
-.app-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  margin-top: 30px;
-}
-
 .card {
   display: flex;
   flex-direction: column;
@@ -111,58 +104,4 @@
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   color: grey;
-}
-
-.nav-button {
-  padding: 10px 40px;
-  margin-top: 30px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  background: white; /* Default background for disabled state */
-  color: black;
-}
-
-.nav-button.enabled {
-  background: #c2ff6d; /* Green when enabled */
-}
-
-.nav-button.disabled {
-  background: white; /* White when disabled */
-  color: grey; /* Grey text when disabled */
-}
-
-.intro-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-}
-
-.intro-screen h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.intro-screen p {
-  font-size: 18px;
-  margin-bottom: 30px;
-  max-width: 600px;
-}
-
-.start-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  background: #c2ff6d;
-  color: black;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.start-button:hover {
-  background-color: #a6d657;
 }
