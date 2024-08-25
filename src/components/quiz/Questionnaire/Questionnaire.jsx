@@ -1,4 +1,3 @@
-// src/components/Questionnaire.js
 import React from "react";
 import "./Questionnaire.css";
 
@@ -12,7 +11,7 @@ const Questionnaire = ({
   handleBack,
   handleNext,
   isNextButtonEnabled,
-  totalQuestions, // Add this prop
+  totalQuestions,
 }) => {
   return (
     <div className="card">

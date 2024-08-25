@@ -1,18 +1,17 @@
-// src/components/Quiz.js
 import React, { useState, useEffect } from "react";
-import "./Quiz.css";
+import "./Survey.css";
 import { data } from "../../assets/data/data";
-import Questionnaire from "./Questionnaire";
-import Intro from "./Intro";
-import DragIntro from "./DragIntro";
+import Questionnaire from "./Questionnaire/Questionnaire";
+import Intro from "./Intro/Intro";
+import DragMain from "./Drag/DragMain/DragMain";
 
-const Quiz = () => {
-  const [index, setIndex] = useState(0);
+const Survey = () => {
+  const [index, setIndex] = useState(15);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [openAnswer, setOpenAnswer] = useState("");
   const [responses, setResponses] = useState([]);
   const [started, setStarted] = useState(false);
-  const [completed, setCompleted] = useState(false); // Add state for completion screen
+  const [completed, setCompleted] = useState(false);
 
   const question = data[index];
   const currentResponse = responses[index];
@@ -41,7 +40,7 @@ const Quiz = () => {
 
   const handleNext = () => {
     if (index >= data.length - 1) {
-      setCompleted(true); // Move to completion screen
+      setCompleted(true);
       return;
     }
 
@@ -131,7 +130,7 @@ const Quiz = () => {
         {!started ? (
           <Intro onStart={handleStart} />
         ) : completed ? (
-          <DragIntro onNext={handleCompletionNext} />
+          <DragMain onNext={handleCompletionNext} />
         ) : (
           <Questionnaire
             question={question}
@@ -151,4 +150,4 @@ const Quiz = () => {
   );
 };
 
-export default Quiz;
+export default Survey;

@@ -1,10 +1,10 @@
 import React from "react";
-import Quiz from "./components/quiz/Quiz";
+import Survey from "./components/quiz/Survey";
 
 function App() {
   return (
     <>
-      <Quiz />
+      <Survey />
     </>
   );
 }
