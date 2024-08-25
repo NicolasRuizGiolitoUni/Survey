@@ -4,6 +4,7 @@ import "./Quiz.css";
 import { data } from "../../assets/data/data";
 import Questionnaire from "./Questionnaire";
 import Intro from "./Intro";
+import DragIntro from "./DragIntro";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
@@ -11,6 +12,7 @@ const Quiz = () => {
   const [openAnswer, setOpenAnswer] = useState("");
   const [responses, setResponses] = useState([]);
   const [started, setStarted] = useState(false);
+  const [completed, setCompleted] = useState(false); // Add state for completion screen
 
   const question = data[index];
   const currentResponse = responses[index];
@@ -39,7 +41,7 @@ const Quiz = () => {
 
   const handleNext = () => {
     if (index >= data.length - 1) {
-      console.log("Quiz completed");
+      setCompleted(true); // Move to completion screen
       return;
     }
 
@@ -115,6 +117,10 @@ const Quiz = () => {
     setStarted(true);
   };
 
+  const handleCompletionNext = () => {
+    console.log("Proceeding to the next part of the survey...");
+  };
+
   return (
     <div className="app-container">
       <div className="center-container">
@@ -124,6 +130,8 @@ const Quiz = () => {
 
         {!started ? (
           <Intro onStart={handleStart} />
+        ) : completed ? (
+          <DragIntro onNext={handleCompletionNext} />
         ) : (
           <Questionnaire
             question={question}
@@ -135,7 +143,7 @@ const Quiz = () => {
             handleBack={handleBack}
             handleNext={handleNext}
             isNextButtonEnabled={isNextButtonEnabled}
-            totalQuestions={data.length} // Pass total number of questions
+            totalQuestions={data.length}
           />
         )}
       </div>

@@ -87,7 +87,6 @@
 .open-answer {
   background: white;
   font-size: 16px;
-  font-family: "Roboto", sans-serif;
   display: flex;
   align-items: flex-start;
   height: 70px;
@@ -101,7 +100,6 @@
 }
 
 .open-answer::placeholder {
-  font-family: "Roboto", sans-serif;
   font-size: 16px;
   color: grey;
 }

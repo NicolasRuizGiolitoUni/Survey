@@ -1,0 +1,40 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #f3f3f3;
+  height: auto;
+  margin-top: 20px;
+  width: 600px;
+  padding: 40px 50px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.card h2 {
+  font-size: 22px;
+}
+
+.card p {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.start-button {
+  padding: 10px 50px;
+  font-size: 18px;
+  margin: auto;
+  border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.start-button:hover {
+  background-color: #c2ff6d;
+  color: rgb(0, 0, 0);
+}
