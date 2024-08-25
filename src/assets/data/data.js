@@ -26,7 +26,7 @@ export const data = [
     placeholder: "Type here",
   },
   {
-    question: "What is language(s) do you speak?",
+    question: "What language(s) do you speak?",
     type: "open",
     placeholder: "Separate with commas",
   },
@@ -152,7 +152,7 @@ export const data = [
   },
   {
     question:
-      "What would be the main reason(s) why you wouldn't switch to a non-smartphone?",
+      "What would be the main reason(s) why you wouldn't switch to a non-smartphone? (select all that apply)",
     type: "checkbox",
     answers: [
       { text: "Need access to work-related apps" },

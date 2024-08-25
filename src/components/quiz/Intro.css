@@ -1,26 +1,31 @@
-.intro-screen {
+.card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
+  gap: 20px;
+  background: #f3f3f3;
+  height: auto;
+  margin-top: 20px;
+  width: 600px;
+  padding: 40px 50px;
+  border-radius: 15px;
+  position: relative;
 }
 
-.intro-screen h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+.card h2 {
+  font-size: 22px;
 }
 
-.intro-screen p {
+.card p {
   font-size: 18px;
+  margin-top: 10px;
   margin-bottom: 30px;
   max-width: 600px;
 }
 
 .start-button {
-  padding: 10px 20px;
+  padding: 10px 50px;
   font-size: 18px;
+  margin: auto;
   border: none;
   border-radius: 10px;
   background: #c2ff6d;

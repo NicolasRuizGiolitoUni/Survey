@@ -3,7 +3,7 @@ import "./Intro.css";
 
 const Intro = ({ onStart }) => {
   return (
-    <div className="intro-screen">
+    <div className="card">
       <h2>Welcome to the Survey!</h2>
       <p>
         We appreciate your participation in this survey. Your responses will
