@@ -6,8 +6,10 @@ const DragInstall = ({ next, back, apps, setApps }) => {
   const [appName, setAppName] = useState("");
   const [appReason, setAppReason] = useState("");
 
+  const isAddButtonDisabled = !appName || !appReason;
+
   const handleAddApp = () => {
-    if (appName && appReason) {
+    if (!isAddButtonDisabled) {
       setApps((prevApps) => [
         ...prevApps,
         { id: `app-${Date.now()}`, name: appName, reason: appReason },
@@ -29,17 +31,22 @@ const DragInstall = ({ next, back, apps, setApps }) => {
 
       <input
         type="text"
-        placeholder="App Name"
+        placeholder="Enter app name"
         value={appName}
         onChange={(e) => setAppName(e.target.value)}
       />
-      <input
+      <textarea
         type="text"
-        placeholder="Reason"
+        placeholder="Wht is this app indispensable for you? Enter min. 20 words"
         value={appReason}
         onChange={(e) => setAppReason(e.target.value)}
+        id="reason"
       />
-      <button className="add-button" onClick={handleAddApp}>
+      <button
+        className={`add-button ${isAddButtonDisabled ? "disabled" : ""}`}
+        onClick={handleAddApp}
+        disabled={isAddButtonDisabled}
+      >
         Add
       </button>
 

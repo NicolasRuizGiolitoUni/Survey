@@ -32,16 +32,11 @@
   flex-direction: row;
 }
 
-.spacing {
-  height: 40px; /* Adjust to create space between elements */
-}
-
 .apps-container {
   background: #000;
   padding: 10px;
-  border-radius: 5px;
+
   min-height: 200px;
-  margin-top: 20px;
 }
 
 .app-item {
@@ -59,5 +54,5 @@
   padding: 20px;
   border-radius: 5px;
   text-align: center;
-  margin-top: 20px;
+  margin-bottom: 80px;
 }

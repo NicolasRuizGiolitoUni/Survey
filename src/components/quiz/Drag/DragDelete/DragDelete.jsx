@@ -9,10 +9,12 @@ const DragDelete = ({ back, next, apps, setApps }) => {
 
   return (
     <>
-      <h2 className="title">Review and Delete Apps</h2>
+      <h2 className="title">Oops! Your storage is already full! {":("}</h2>
       <p className="paragraph">
-        Here is your list of apps. You can choose to delete any unnecessary apps
-        from the list.
+        You can only keep <strong>5 apps </strong>. Choose the ones you
+        definitely can't live without and drag and drop the rest to the trash
+        can below. When deleting the apps,
+        <strong> enter the reason why you decided to delete them. </strong>
       </p>
 
       <Droppable droppableId="appsContainer">
@@ -32,7 +34,6 @@ const DragDelete = ({ back, next, apps, setApps }) => {
                     {...provided.dragHandleProps}
                   >
                     <div className="app-name">{app.name}</div>
-                    <div className="app-reason">{app.reason}</div>
                   </div>
                 )}
               </Draggable>
