@@ -1,8 +1,9 @@
 .container {
-  background: #c2ff6d;
+  background: #000000;
   border-radius: 10px;
   padding: 30px 20px 50px;
   width: 50%; /* Adjust width to fit parent container */
+  height: 500px; /* Adjust height to fit parent container */
   display: flex;
   flex-direction: column;
   gap: 15px;

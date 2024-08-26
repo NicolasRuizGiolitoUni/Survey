@@ -1,0 +1,37 @@
+.title {
+  font-size: 22px;
+}
+
+.paragraph {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 1px; /* Align with DragIntro if intended */
+  max-width: 600px;
+}
+
+.start-button {
+  padding: 10px 50px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.start-button:hover {
+  background-color: #c2ff6d;
+  color: rgb(0, 0, 0);
+}
+
+.buttons-container {
+  padding: 10px 50px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
+.spacing {
+  height: 40px; /* Adjust to create space between elements */
+}

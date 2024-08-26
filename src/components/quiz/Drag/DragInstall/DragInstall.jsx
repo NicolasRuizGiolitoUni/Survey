@@ -1,16 +1,13 @@
 import React from "react";
-import { useState } from "react";
 import "./DragInstall.css";
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import Column from "../Column/Column";
 import { arrayMove } from "@dnd-kit/sortable";
 import AppInput from "../AppInput/AppInput";
 
-const DragInstall = ({ next, back }) => {
-  const [apps, setApps] = useState([]);
-
-  const addApp = (name) => {
-    setApps((apps) => [...apps, { id: apps.length + 1, name }]);
+const DragInstall = ({ next, back, apps, setApps }) => {
+  const addApp = (name, reason) => {
+    setApps((apps) => [...apps, { id: apps.length + 1, name, reason }]);
   };
 
   const getAppPosition = (id) => apps.findIndex((app) => app.id === id);
@@ -32,9 +29,10 @@ const DragInstall = ({ next, back }) => {
     <>
       <h2 className="title">Now it's time to install some apps!</h2>
       <p className="paragraph">
-        Make a list of the apps you consider indispensable, and next to each
-        one, explain why it is essential for you. You can list as many apps as
-        you want.
+        Enter the names of the apps you can't live without,{" "}
+        <strong>along with the reasons you need them</strong>. Then, on the
+        phone below, drag and drop them{" "}
+        <strong> in order of importance </strong> from top to bottom.
       </p>
       <AppInput onSubmit={addApp} />
       <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCorners}>
