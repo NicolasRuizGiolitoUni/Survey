@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Survey.css";
 import { data } from "../../assets/data/data";
 import Questionnaire from "./Questionnaire/Questionnaire";
-import Intro from "./Intro/Intro";
-import DragMain from "./Drag/DragMain/DragMain";
 
-const Survey = () => {
-  const [index, setIndex] = useState(15);
+const Survey = ({ goToNextComponent, goToPreviousComponent }) => {
+  const [index, setIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [openAnswer, setOpenAnswer] = useState("");
   const [responses, setResponses] = useState([]);
@@ -57,6 +55,8 @@ const Survey = () => {
       setIndex(index - 1);
       setSelectedAnswers([]);
       setOpenAnswer("");
+    } else {
+      goToPreviousComponent();
     }
   };
 
@@ -112,25 +112,17 @@ const Survey = () => {
     return false;
   };
 
-  const handleStart = () => {
-    setStarted(true);
-  };
-
-  const handleCompletionNext = () => {
-    console.log("Proceeding to the next part of the survey...");
-  };
+  useEffect(() => {
+    if (completed) {
+      goToNextComponent();
+    }
+  }, [completed, goToNextComponent]);
 
   return (
     <div className="app-container">
       <div className="center-container">
-        <div className="header">
-          <h1>Not-Too-Dumb Phone Survey</h1>
-        </div>
-
-        {!started ? (
-          <Intro onStart={handleStart} />
-        ) : completed ? (
-          <DragMain onNext={handleCompletionNext} />
+        {completed ? (
+          <div className="thannks">Thank you!</div>
         ) : (
           <Questionnaire
             question={question}
@@ -139,8 +131,15 @@ const Survey = () => {
             openAnswer={openAnswer}
             handleAnswerSelection={handleAnswerSelection}
             handleOpenAnswer={handleOpenAnswer}
-            handleBack={handleBack}
-            handleNext={handleNext}
+            handleBack={() => {
+              handleBack();
+            }}
+            handleNext={() => {
+              handleNext();
+              if (index >= data.length - 1) {
+                goToNextComponent();
+              }
+            }}
             isNextButtonEnabled={isNextButtonEnabled}
             totalQuestions={data.length}
           />

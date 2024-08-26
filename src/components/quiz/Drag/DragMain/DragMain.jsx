@@ -6,7 +6,7 @@ import DragIntroSecond from "../DragIntro/DragIntroSecond";
 import DragDelete from "../DragDelete/DragDelete";
 import { DragDropContext } from "react-beautiful-dnd";
 
-const DragMain = () => {
+const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
   const [index, setIndex] = useState(0);
   const [apps, setApps] = useState([]);
 
@@ -19,6 +19,8 @@ const DragMain = () => {
   const prevScreen = () => {
     if (index > 0) {
       setIndex(index - 1);
+    } else {
+      goToPreviousComponent();
     }
   };
 
@@ -50,7 +52,7 @@ const DragMain = () => {
   };
 
   const components = [
-    <DragIntro next={nextScreen} />,
+    <DragIntro next={nextScreen} back={goToPreviousComponent} />,
     <DragIntroSecond next={nextScreen} back={prevScreen} />,
     <DragInstall
       next={nextScreen}
@@ -59,7 +61,7 @@ const DragMain = () => {
       setApps={setApps}
     />,
     <DragDelete
-      next={nextScreen}
+      next={goToNextComponent}
       back={prevScreen}
       apps={apps}
       setApps={setApps}

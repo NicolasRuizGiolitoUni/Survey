@@ -60,10 +60,10 @@ const DragDelete = ({ back, next, apps, setApps }) => {
 
       <div className="buttons-container">
         <button className="start-button" onClick={back}>
-          Back
+          <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <button className="start-button" onClick={next}>
-          Finish
+          <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>
     </>

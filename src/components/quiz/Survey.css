@@ -166,3 +166,9 @@
 .start-button:hover {
   background-color: #a6d657;
 }
+
+.thanks {
+  font-size: 48;
+  align-self: center;
+  align-items: center;
+}
