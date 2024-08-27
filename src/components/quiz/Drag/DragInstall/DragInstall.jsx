@@ -37,7 +37,7 @@ const DragInstall = ({ next, back, apps, setApps }) => {
       />
       <textarea
         type="text"
-        placeholder="Wht is this app indispensable for you? Enter min. 20 words"
+        placeholder="Why is this app indispensable for you? Enter min. 20 words"
         value={appReason}
         onChange={(e) => setAppReason(e.target.value)}
         id="reason"

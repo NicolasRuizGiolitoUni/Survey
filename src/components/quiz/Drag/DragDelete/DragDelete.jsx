@@ -21,6 +21,7 @@ const DragDelete = ({ back, next, apps, setApps }) => {
         {(provided) => (
           <div
             className="apps-container"
+            id="trash-can"
             ref={provided.innerRef}
             {...provided.droppableProps}
           >

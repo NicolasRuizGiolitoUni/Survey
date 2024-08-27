@@ -39,6 +39,10 @@
   min-height: 200px;
 }
 
+#trash-can {
+  margin-bottom: 10px;
+}
+
 .app-item {
   background: #fff;
   padding: 10px;
