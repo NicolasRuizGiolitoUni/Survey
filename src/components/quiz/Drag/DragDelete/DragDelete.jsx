@@ -7,6 +7,11 @@ const DragDelete = ({ back, next, apps, setApps }) => {
     setApps((prevApps) => prevApps.filter((app) => app.id !== appId));
   };
 
+  const handleNext = () => {
+    console.log(apps);
+    next();
+  };
+
   return (
     <>
       <h2 className="title">Oops! Your storage is already full! {":("}</h2>
@@ -63,7 +68,7 @@ const DragDelete = ({ back, next, apps, setApps }) => {
         <button className="start-button" onClick={back}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <button className="start-button" onClick={next}>
+        <button className="start-button" onClick={handleNext}>
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>
