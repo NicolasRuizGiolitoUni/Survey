@@ -1,29 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import "./DragDelete.css";
 
 const DragDelete = ({ back, next, apps, setApps, trashApps, setTrashApps }) => {
-  const [currentDraggedApp, setCurrentDraggedApp] = useState(null);
   const [deletedApps, setDeletedApps] = useState([]);
 
-  const handleDelete = (appId) => {
+  const handleDeleteApp = (appId) => {
+    // Remove app from trash and add to deletedApps
+    const appToDelete = trashApps.find((app) => app.id === appId);
     setTrashApps((prevTrashApps) =>
       prevTrashApps.filter((app) => app.id !== appId)
     );
-    setDeletedApps((prevDeletedApps) => [
-      ...prevDeletedApps,
-      trashApps.find((app) => app.id === appId),
-    ]);
-    setCurrentDraggedApp(null);
+    setDeletedApps((prevDeletedApps) => [...prevDeletedApps, appToDelete]);
   };
 
-  const handleDragStart = (appId) => {
-    setCurrentDraggedApp(appId);
-  };
-
-  const handleDragEnd = () => {
-    setCurrentDraggedApp(null);
-  };
+  // Log deletedApps state whenever it changes
+  useEffect(() => {
+    console.log(deletedApps);
+  }, [deletedApps]);
 
   return (
     <>
@@ -44,13 +38,7 @@ const DragDelete = ({ back, next, apps, setApps, trashApps, setTrashApps }) => {
             {...provided.droppableProps}
           >
             {apps.map((app, index) => (
-              <Draggable
-                key={app.id}
-                draggableId={app.id}
-                index={index}
-                onDragStart={() => handleDragStart(app.id)}
-                onDragEnd={handleDragEnd}
-              >
+              <Draggable key={app.id} draggableId={app.id} index={index}>
                 {(provided) => (
                   <div
                     className="app-item"
@@ -69,7 +57,7 @@ const DragDelete = ({ back, next, apps, setApps, trashApps, setTrashApps }) => {
       </Droppable>
 
       <div className="trash-container">
-        <Droppable droppableId="trash" isDropDisabled={false}>
+        <Droppable droppableId="trash">
           {(provided) => (
             <div
               className="trash-can"
@@ -82,19 +70,18 @@ const DragDelete = ({ back, next, apps, setApps, trashApps, setTrashApps }) => {
                   {(provided) => (
                     <div
                       className="app-item"
+                      id="trash-app"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
                       <div className="app-name">{app.name}</div>
-                      {currentDraggedApp === app.id && (
-                        <button
-                          className="delete-button"
-                          onClick={() => handleDelete(app.id)}
-                        >
-                          Delete
-                        </button>
-                      )}
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDeleteApp(app.id)}
+                      >
+                        Delete
+                      </button>
                     </div>
                   )}
                 </Draggable>
