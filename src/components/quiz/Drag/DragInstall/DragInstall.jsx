@@ -53,6 +53,7 @@ const DragInstall = ({ next, back, apps, setApps }) => {
       <Droppable droppableId="appsContainer">
         {(provided) => (
           <div
+            id="apps-install"
             className="apps-container"
             ref={provided.innerRef}
             {...provided.droppableProps}

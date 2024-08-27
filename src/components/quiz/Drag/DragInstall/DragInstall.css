@@ -48,6 +48,10 @@
   margin-bottom: 80px;
 }
 
+#apps-install.apps-container {
+  margin-bottom: 100px;
+}
+
 .app-item {
   background: #fff;
   padding: 10px;
