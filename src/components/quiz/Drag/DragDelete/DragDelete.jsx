@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import "./DragDelete.css";
-
+//yes
 const DragDelete = ({ back, next, apps, setApps, trashApps, setTrashApps }) => {
   const [deletedApps, setDeletedApps] = useState([]);
 

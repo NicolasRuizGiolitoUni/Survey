@@ -65,7 +65,6 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
 
   const components = [
     <DragIntro next={nextScreen} back={goToPreviousComponent} />,
-    <DragOS next={nextScreen} back={prevScreen} />,
     <DragIntroSecond next={nextScreen} back={prevScreen} />,
     <DragOS next={nextScreen} back={prevScreen} />,
     <DragInstall

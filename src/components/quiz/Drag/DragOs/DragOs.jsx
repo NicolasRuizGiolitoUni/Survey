@@ -10,7 +10,7 @@ const DragOS = ({ next, back }) => {
   };
 
   const handleNext = () => {
-    console.log("Selected OS:", selectedOS);
+    console.log(selectedOS);
     next();
   };
 
