@@ -22,7 +22,7 @@ const DragDelete = ({ back, next, apps, setApps, trashApps, setTrashApps }) => {
   return (
     <>
       <h2 className="title">Oops! Your storage is already full! {":("}</h2>
-      <p className="paragraph">
+      <p id="paragraph-delete">
         You can only keep <strong>5 apps </strong>. Choose the ones you
         definitely can't live without and drag and drop the rest to the trash
         can below. When deleting the apps,

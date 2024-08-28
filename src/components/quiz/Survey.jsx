@@ -119,7 +119,7 @@ const Survey = ({ goToNextComponent, goToPreviousComponent }) => {
   }, [completed, goToNextComponent]);
 
   return (
-    <div className="app-container">
+    <div className="app-container" id="survey-container">
       <div className="center-container">
         {completed ? (
           <div className="thannks">Thank you!</div>

@@ -4,10 +4,10 @@
   font-size: 22px;
 }
 
-.paragraph {
+#paragraph-delete {
   font-size: 18px;
   margin-top: 10px;
-  margin-bottom: 1px; /* Align with DragIntro if intended */
+  margin-bottom: 30px; /* Align with DragIntro if intended */
   max-width: 600px;
 }
 
@@ -53,7 +53,7 @@
   background: red;
   color: white;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 20px;
   text-align: center;
   min-height: 100px;
 }
