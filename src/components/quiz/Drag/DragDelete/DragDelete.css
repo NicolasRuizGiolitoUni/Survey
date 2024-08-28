@@ -1,11 +1,13 @@
+/* DragDelete.css */
+
 .title {
   font-size: 22px;
 }
 
-.paragraph {
+#paragraph-delete {
   font-size: 18px;
   margin-top: 10px;
-  margin-bottom: 1px; /* Align with DragIntro if intended */
+  margin-bottom: 30px; /* Align with DragIntro if intended */
   max-width: 600px;
 }
 
@@ -27,20 +29,33 @@
 
 .buttons-container {
   padding: 10px 50px;
-  margin-top: 30px;
+  margin-top: 70px;
   display: flex;
   flex-direction: row;
 }
 
+#buttons-delete {
+  margin-top: 100px;
+}
+
 .apps-container {
+  margin-bottom: 0;
   background: #000;
   padding: 10px;
-
   min-height: 200px;
 }
 
-#trash-can {
-  margin-bottom: 10px;
+.trash-container {
+  margin-bottom: 95px;
+}
+
+.trash-can {
+  background: red;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  min-height: 100px;
 }
 
 .app-item {
@@ -50,13 +65,29 @@
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
+  color: #000; /* Ensure text is visible */
 }
 
-.trash-can {
+.app-name {
+  font-size: 16px;
+}
+
+#trash-app {
+  margin-top: 15px;
+}
+
+.delete-button {
   background: red;
   color: white;
-  padding: 20px;
+  border: none;
+  padding: 5px 10px;
   border-radius: 5px;
-  text-align: center;
-  margin-bottom: 80px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: darkred;
 }

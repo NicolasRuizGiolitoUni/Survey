@@ -5,6 +5,10 @@
   margin-top: 30px;
 }
 
+#survey-container {
+  margin-top: 0;
+}
+
 .card {
   display: flex;
   flex-direction: column;

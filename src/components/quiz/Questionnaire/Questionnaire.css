@@ -79,6 +79,10 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
+.answer:hover {
+  background: #f0f0f0;
+}
+
 .answer.selected {
   background: black;
   color: white;

@@ -4,10 +4,10 @@
 
 /* adas*/
 
-.paragraph {
+#paragraph {
   font-size: 18px;
   margin-top: 10px;
-  margin-bottom: 1px; /* Align with DragIntro if intended */
+  margin-bottom: 20px;
   max-width: 600px;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .spacing {
-  height: 40px; /* Adjust to create space between elements */
+  height: 40px;
 }
 .apps-container {
   background: #000;
@@ -46,6 +46,10 @@
   width: 55%;
   margin-top: 10px; /* Adjust if needed */
   margin-bottom: 80px;
+}
+
+#apps-install.apps-container {
+  margin-bottom: 100px;
 }
 
 .app-item {

@@ -22,7 +22,7 @@ const DragInstall = ({ next, back, apps, setApps }) => {
   return (
     <>
       <h2 className="title">Now it's time to install some apps!</h2>
-      <p className="paragraph">
+      <p id="paragraph">
         Enter the names of the apps you can't live without,{" "}
         <strong>along with the reasons you need them</strong>. Then, on the
         phone below, drag and drop them{" "}
@@ -53,6 +53,7 @@ const DragInstall = ({ next, back, apps, setApps }) => {
       <Droppable droppableId="appsContainer">
         {(provided) => (
           <div
+            id="apps-install"
             className="apps-container"
             ref={provided.innerRef}
             {...provided.droppableProps}

@@ -10,6 +10,7 @@ import DragOS from "../DragOS/DragOS";
 const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
   const [index, setIndex] = useState(0);
   const [apps, setApps] = useState([]);
+  const [trashApps, setTrashApps] = useState([]);
 
   const nextScreen = () => {
     if (index < components.length - 1) {
@@ -28,34 +29,45 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
   const handleDragEnd = (result) => {
     if (!result.destination) return;
 
-    const { source, destination } = result;
+    const { source, destination, draggableId } = result;
 
-    if (
-      source.droppableId === "appsContainer" &&
-      destination.droppableId === "appsContainer"
-    ) {
-      const reorderedApps = Array.from(apps);
-      const [movedApp] = reorderedApps.splice(source.index, 1);
-      reorderedApps.splice(destination.index, 0, movedApp);
-      setApps(reorderedApps);
-    }
+    if (source.droppableId === destination.droppableId) return;
 
     if (
       source.droppableId === "appsContainer" &&
       destination.droppableId === "trash"
     ) {
-      handleDelete(result.draggableId);
+      // Move item to trash
+      const movedApp = apps.find((app) => app.id === draggableId);
+      setApps((prevApps) => prevApps.filter((app) => app.id !== draggableId));
+      setTrashApps((prevTrashApps) => [...prevTrashApps, movedApp]);
+    } else if (
+      source.droppableId === "trash" &&
+      destination.droppableId === "appsContainer"
+    ) {
+      // Move item back to apps
+      const movedApp = trashApps.find((app) => app.id === draggableId);
+      setTrashApps((prevTrashApps) =>
+        prevTrashApps.filter((app) => app.id !== draggableId)
+      );
+      setApps((prevApps) => [...prevApps, movedApp]);
+    } else if (
+      source.droppableId === "appsContainer" &&
+      destination.droppableId === "appsContainer"
+    ) {
+      // Reorder items within apps container
+      const reorderedApps = Array.from(apps);
+      const [movedApp] = reorderedApps.splice(source.index, 1);
+      reorderedApps.splice(destination.index, 0, movedApp);
+      setApps(reorderedApps);
     }
-  };
-
-  const handleDelete = (appId) => {
-    setApps((prevApps) => prevApps.filter((app) => app.id !== appId));
   };
 
   const components = [
     <DragIntro next={nextScreen} back={goToPreviousComponent} />,
     <DragOS next={nextScreen} back={prevScreen} />,
     <DragIntroSecond next={nextScreen} back={prevScreen} />,
+    <DragOS next={nextScreen} back={prevScreen} />,
     <DragInstall
       next={nextScreen}
       back={prevScreen}
@@ -67,6 +79,8 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
       back={prevScreen}
       apps={apps}
       setApps={setApps}
+      trashApps={trashApps}
+      setTrashApps={setTrashApps}
     />,
   ];
 
