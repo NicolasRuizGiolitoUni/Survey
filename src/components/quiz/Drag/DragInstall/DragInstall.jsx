@@ -1,22 +1,46 @@
 import React, { useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore/lite";
+import { db } from "../../../../db/db"; // Adjust the path as necessary
 import "./DragInstall.css";
 
-const DragInstall = ({ next, back, apps, setApps }) => {
+const DragInstall = ({ next, back, apps, setApps, docId }) => {
   const [appName, setAppName] = useState("");
   const [appReason, setAppReason] = useState("");
 
   const isAddButtonDisabled = !appName || !appReason;
 
-  const handleAddApp = () => {
+  const handleAddApp = async () => {
     if (!isAddButtonDisabled) {
-      setApps((prevApps) => [
-        ...prevApps,
-        { id: `app-${Date.now()}`, name: appName, reason: appReason },
-      ]);
+      const newApp = {
+        id: `app-${Date.now()}`, // Ensure each app has a unique id
+        name: appName,
+        reason: appReason,
+      };
+
+      // Update the state
+      setApps((prevApps) => [...prevApps, newApp]);
+
+      // Update Firestore document
+      try {
+        const docRef = doc(db, "surveyResponses", docId);
+        await updateDoc(docRef, {
+          Selected_apps: arrayUnion(newApp), // Add the new app to the array of apps in Firestore
+        });
+        console.log("App added to Firestore:", newApp);
+      } catch (error) {
+        console.error("Error updating document:", error);
+      }
+
+      // Reset input fields
       setAppName("");
       setAppReason("");
     }
+  };
+
+  const handleNext = () => {
+    console.log("Apps:", apps);
+    next();
   };
 
   return (
@@ -81,7 +105,7 @@ const DragInstall = ({ next, back, apps, setApps }) => {
         <button className="start-button" onClick={back}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <button className="start-button" onClick={next}>
+        <button className="start-button" onClick={handleNext}>
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>

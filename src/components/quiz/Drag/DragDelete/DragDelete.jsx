@@ -1,22 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore/lite";
+import { db } from "../../../../db/db"; // Adjust the path as necessary
 import "./DragDelete.css";
-//yes
-const DragDelete = ({ back, next, apps, setApps, trashApps, setTrashApps }) => {
+
+const DragDelete = ({
+  back,
+  next,
+  apps,
+  setApps,
+  trashApps,
+  setTrashApps,
+  docId, // Fixed typo from docID to docId for consistency
+}) => {
   const [deletedApps, setDeletedApps] = useState([]);
 
-  const handleDeleteApp = (appId) => {
+  const handleDeleteApp = async (appId) => {
     // Remove app from trash and add to deletedApps
     const appToDelete = trashApps.find((app) => app.id === appId);
     setTrashApps((prevTrashApps) =>
       prevTrashApps.filter((app) => app.id !== appId)
     );
     setDeletedApps((prevDeletedApps) => [...prevDeletedApps, appToDelete]);
+
+    // Update Firestore document with the deleted app
+    try {
+      const docRef = doc(db, "surveyResponses", docId);
+      await updateDoc(docRef, {
+        Deleted_apps: arrayUnion(appToDelete), // Save deleted app to Firestore
+      });
+      console.log("Deleted app added to Firestore:", appToDelete);
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
   };
 
   // Log deletedApps state whenever it changes
   useEffect(() => {
-    console.log(deletedApps);
+    console.log("Deleted Apps:", deletedApps);
   }, [deletedApps]);
 
   return (

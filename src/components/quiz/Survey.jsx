@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./Survey.css";
 import { data } from "../../assets/data/data";
 import Questionnaire from "./Questionnaire/Questionnaire";
+import { doc, setDoc, updateDoc } from "firebase/firestore/lite";
+import { db } from "../../db/db";
 
-const Survey = ({ goToNextComponent, goToPreviousComponent }) => {
+const Survey = ({ goToNextComponent, goToPreviousComponent, docId }) => {
   const [index, setIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [openAnswer, setOpenAnswer] = useState("");
@@ -14,6 +16,20 @@ const Survey = ({ goToNextComponent, goToPreviousComponent }) => {
   const question = data[index];
   const currentResponse = responses[index];
 
+  // Load responses from Firestore when component mounts
+  useEffect(() => {
+    const loadResponses = async () => {
+      const docRef = doc(db, "surveyResponses", docId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setResponses(docSnap.data().responses || []);
+      }
+    };
+
+    loadResponses();
+  }, [docId]);
+
+  // Update local state when responses change
   useEffect(() => {
     if (question) {
       if (currentResponse) {
@@ -35,6 +51,16 @@ const Survey = ({ goToNextComponent, goToPreviousComponent }) => {
       }
     }
   }, [index, responses, question]);
+
+  const updateFirestoreResponses = async (updatedResponses) => {
+    const docRef = doc(db, "surveyResponses", docId);
+    try {
+      await updateDoc(docRef, { responses: updatedResponses });
+      console.log("Responses updated in Firestore");
+    } catch (error) {
+      console.error("Error updating responses in Firestore:", error);
+    }
+  };
 
   const handleNext = () => {
     if (index >= data.length - 1) {
@@ -83,6 +109,7 @@ const Survey = ({ goToNextComponent, goToPreviousComponent }) => {
       }
 
       setResponses(updatedResponses);
+      updateFirestoreResponses(updatedResponses);
     }
   };
 
@@ -95,6 +122,7 @@ const Survey = ({ goToNextComponent, goToPreviousComponent }) => {
         answer: e.target.value,
       };
       setResponses(updatedResponses);
+      updateFirestoreResponses(updatedResponses);
     }
     setOpenAnswer(e.target.value);
   };

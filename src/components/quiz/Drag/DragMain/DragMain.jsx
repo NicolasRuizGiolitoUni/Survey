@@ -7,7 +7,11 @@ import DragDelete from "../DragDelete/DragDelete";
 import { DragDropContext } from "react-beautiful-dnd";
 import DragOS from "../DragOS/DragOS";
 
-const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
+const DragMain = ({
+  goToNextComponent,
+  goToPreviousComponent,
+  docId, // Use docId here
+}) => {
   const [index, setIndex] = useState(0);
   const [apps, setApps] = useState([]);
   const [trashApps, setTrashApps] = useState([]);
@@ -37,7 +41,6 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
       source.droppableId === "appsContainer" &&
       destination.droppableId === "trash"
     ) {
-      // Move item to trash
       const movedApp = apps.find((app) => app.id === draggableId);
       setApps((prevApps) => prevApps.filter((app) => app.id !== draggableId));
       setTrashApps((prevTrashApps) => [...prevTrashApps, movedApp]);
@@ -45,7 +48,6 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
       source.droppableId === "trash" &&
       destination.droppableId === "appsContainer"
     ) {
-      // Move item back to apps
       const movedApp = trashApps.find((app) => app.id === draggableId);
       setTrashApps((prevTrashApps) =>
         prevTrashApps.filter((app) => app.id !== draggableId)
@@ -55,7 +57,6 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
       source.droppableId === "appsContainer" &&
       destination.droppableId === "appsContainer"
     ) {
-      // Reorder items within apps container
       const reorderedApps = Array.from(apps);
       const [movedApp] = reorderedApps.splice(source.index, 1);
       reorderedApps.splice(destination.index, 0, movedApp);
@@ -66,12 +67,13 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
   const components = [
     <DragIntro next={nextScreen} back={goToPreviousComponent} />,
     <DragIntroSecond next={nextScreen} back={prevScreen} />,
-    <DragOS next={nextScreen} back={prevScreen} />,
+    <DragOS next={nextScreen} back={prevScreen} docId={docId} />,
     <DragInstall
       next={nextScreen}
       back={prevScreen}
       apps={apps}
       setApps={setApps}
+      docId={docId}
     />,
     <DragDelete
       next={goToNextComponent}
@@ -80,6 +82,7 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent }) => {
       setApps={setApps}
       trashApps={trashApps}
       setTrashApps={setTrashApps}
+      docId={docId}
     />,
   ];
 
