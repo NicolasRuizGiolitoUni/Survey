@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { doc, updateDoc } from "firebase/firestore/lite";
+import { db } from "../../../../db/db";
 import "./DragOS.css";
 
-const DragOS = ({ next, back }) => {
+const DragOS = ({ next, back, docId }) => {
   const osOptions = ["Android", "iOS", "HarmonyOS", "Other"];
   const [selectedOS, setSelectedOS] = useState("");
 
@@ -9,9 +11,22 @@ const DragOS = ({ next, back }) => {
     setSelectedOS(os);
   };
 
-  const handleNext = () => {
-    console.log(selectedOS);
-    next();
+  const handleNext = async () => {
+    if (selectedOS) {
+      try {
+        const docRef = doc(db, "surveyResponses", docId);
+        await updateDoc(docRef, {
+          os: selectedOS,
+        });
+
+        console.log("Selected OS:", selectedOS);
+        console.log("Document ID:", docId);
+
+        next();
+      } catch (error) {
+        console.error("Error updating document:", error);
+      }
+    }
   };
 
   return (
@@ -42,7 +57,7 @@ const DragOS = ({ next, back }) => {
         <button
           className="start-button"
           onClick={handleNext}
-          disabled={!selectedOS} // Disable next button until an OS is selected
+          disabled={!selectedOS}
         >
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
