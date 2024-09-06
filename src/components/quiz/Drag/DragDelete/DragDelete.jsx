@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore/lite";
 import { db } from "../../../../db/db"; // Adjust the path as necessary
 import "./DragDelete.css";
@@ -11,12 +11,13 @@ const DragDelete = ({
   setApps,
   trashApps,
   setTrashApps,
-  docId, // Fixed typo from docID to docId for consistency
+  docId,
 }) => {
   const [deletedApps, setDeletedApps] = useState([]);
+  const [selectedApp, setSelectedApp] = useState(null);
+  const [deleteReason, setDeleteReason] = useState("");
 
   const handleDeleteApp = async (appId) => {
-    // Remove app from trash and add to deletedApps
     const appToDelete = trashApps.find((app) => app.id === appId);
     setTrashApps((prevTrashApps) =>
       prevTrashApps.filter((app) => app.id !== appId)
@@ -27,82 +28,63 @@ const DragDelete = ({
     try {
       const docRef = doc(db, "surveyResponses", docId);
       await updateDoc(docRef, {
-        Deleted_apps: arrayUnion(appToDelete), // Save deleted app to Firestore
+        Deleted_apps: arrayUnion({ ...appToDelete, reason: deleteReason }), // Save deleted app and reason to Firestore
       });
       console.log("Deleted app added to Firestore:", appToDelete);
     } catch (error) {
       console.error("Error updating document:", error);
     }
+
+    // Reset state
+    setSelectedApp(null);
+    setDeleteReason("");
   };
 
-  // Log deletedApps state whenever it changes
-  useEffect(() => {
-    console.log("Deleted Apps:", deletedApps);
-  }, [deletedApps]);
+  const handleDragEnd = (result) => {
+    const { source, destination } = result;
+
+    if (!destination) return;
+
+    // If the app is dropped in the trash
+    if (destination.droppableId === "trash") {
+      const appToDelete = apps[source.index];
+      setTrashApps((prevTrashApps) => [...prevTrashApps, appToDelete]);
+      setApps((prevApps) =>
+        prevApps.filter((app) => app.id !== appToDelete.id)
+      );
+      setSelectedApp(appToDelete);
+    }
+  };
 
   return (
     <>
       <h2 className="title">Oops! Your storage is already full! {":("}</h2>
       <p id="paragraph-delete">
-        You can only keep <strong>5 apps </strong>. Choose the ones you
+        You can only keep <strong>5 apps</strong>. Choose the ones you
         definitely can't live without and drag and drop the rest to the trash
-        can below. When deleting the apps,
-        <strong> enter the reason why you decided to delete them. </strong>
+        can below. When deleting the apps,{" "}
+        <strong>enter the reason why you decided to delete them.</strong>
       </p>
 
-      <Droppable droppableId="appsContainer">
-        {(provided) => (
-          <div
-            id="apps-delete"
-            className="apps-container"
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {apps.map((app, index) => (
-              <Draggable key={app.id} draggableId={app.id} index={index}>
-                {(provided) => (
-                  <div
-                    className="app-item"
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <div className="app-name">{app.name}</div>
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-
-      <div className="trash-container">
-        <Droppable droppableId="trash">
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="appsContainer">
           {(provided) => (
             <div
-              className="trash-can"
+              id="apps-delete"
+              className="apps-container"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              <h3>Drag here to remove</h3>
-              {trashApps.map((app, index) => (
+              {apps.map((app, index) => (
                 <Draggable key={app.id} draggableId={app.id} index={index}>
                   {(provided) => (
                     <div
                       className="app-item"
-                      id="trash-app"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
                       <div className="app-name">{app.name}</div>
-                      <button
-                        className="delete-button"
-                        onClick={() => handleDeleteApp(app.id)}
-                      >
-                        Delete
-                      </button>
                     </div>
                   )}
                 </Draggable>
@@ -111,7 +93,59 @@ const DragDelete = ({
             </div>
           )}
         </Droppable>
-      </div>
+
+        <div className="trash-container">
+          <Droppable droppableId="trash">
+            {(provided) => (
+              <div
+                className="trash-can"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                <h3>Drag here to remove</h3>
+
+                {trashApps.map((app, index) => (
+                  <Draggable key={app.id} draggableId={app.id} index={index}>
+                    {(provided) => (
+                      <div
+                        className={`app-item ${
+                          selectedApp && selectedApp.id === app.id
+                            ? "expanded"
+                            : ""
+                        }`}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <div className="app-name">{app.name}</div>
+
+                        {selectedApp && selectedApp.id === app.id && (
+                          <>
+                            <textarea
+                              className="delete-reason"
+                              placeholder="Enter reason for deleting this app"
+                              value={deleteReason}
+                              onChange={(e) => setDeleteReason(e.target.value)}
+                            ></textarea>
+                            <button
+                              className="delete-button"
+                              onClick={() => handleDeleteApp(app.id)}
+                              disabled={!deleteReason}
+                            >
+                              Delete
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
+      </DragDropContext>
 
       <div id="buttons-delete" className="buttons-container">
         <button className="start-button" onClick={back}>
