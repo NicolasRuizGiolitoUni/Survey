@@ -16,7 +16,9 @@ const DragDelete = ({
   const [deletedApps, setDeletedApps] = useState([]);
   const [selectedApp, setSelectedApp] = useState(null);
   const [deleteReason, setDeleteReason] = useState("");
-  const [originalIndexMap, setOriginalIndexMap] = useState(new Map()); // To store original indices
+  const [originalIndexMap, setOriginalIndexMap] = useState(new Map());
+  const [isTrashOccupied, setIsTrashOccupied] = useState(false);
+  const [showMessage, setShowMessage] = useState(false); // State to control the visibility of the message
 
   const handleDeleteApp = async (appId) => {
     const appToDelete = trashApps.find((app) => app.id === appId);
@@ -29,7 +31,7 @@ const DragDelete = ({
     try {
       const docRef = doc(db, "surveyResponses", docId);
       await updateDoc(docRef, {
-        Deleted_apps: arrayUnion({ ...appToDelete, reason: deleteReason }), // Save deleted app and reason to Firestore
+        Deleted_apps: arrayUnion({ ...appToDelete, reason: deleteReason }),
       });
       console.log("Deleted app added to Firestore:", appToDelete);
     } catch (error) {
@@ -39,6 +41,7 @@ const DragDelete = ({
     // Reset state
     setSelectedApp(null);
     setDeleteReason("");
+    setIsTrashOccupied(false);
   };
 
   const handleDragEnd = (result) => {
@@ -51,6 +54,14 @@ const DragDelete = ({
       source.droppableId === "appsContainer" &&
       destination.droppableId === "trash"
     ) {
+      if (isTrashOccupied) {
+        setShowMessage(true); // Show the message if trash can is occupied
+        setTimeout(() => {
+          setShowMessage(false); // Hide the message after 3 seconds
+        }, 3000);
+        return; // Exit the function early
+      }
+
       const appToDelete = apps[source.index];
       setTrashApps((prevTrashApps) => [...prevTrashApps, appToDelete]);
       setApps((prevApps) =>
@@ -59,7 +70,8 @@ const DragDelete = ({
       setSelectedApp(appToDelete);
       setOriginalIndexMap((prevMap) =>
         new Map(prevMap).set(appToDelete.id, source.index)
-      ); // Store original index
+      );
+      setIsTrashOccupied(true);
     }
 
     // Move app from trash back to apps
@@ -70,8 +82,8 @@ const DragDelete = ({
       const appToRestore = trashApps[source.index];
       setApps((prevApps) => {
         const updatedApps = [...prevApps];
-        const originalIndex = originalIndexMap.get(appToRestore.id); // Get original index
-        updatedApps.splice(originalIndex, 0, appToRestore); // Insert app back at its original index
+        const originalIndex = originalIndexMap.get(appToRestore.id);
+        updatedApps.splice(originalIndex, 0, appToRestore);
         return updatedApps;
       });
       setTrashApps((prevTrashApps) =>
@@ -80,9 +92,10 @@ const DragDelete = ({
       setSelectedApp(null);
       setOriginalIndexMap((prevMap) => {
         const newMap = new Map(prevMap);
-        newMap.delete(appToRestore.id); // Remove from original index map
+        newMap.delete(appToRestore.id);
         return newMap;
       });
+      setIsTrashOccupied(false);
     }
   };
 
@@ -185,6 +198,10 @@ const DragDelete = ({
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>
+
+      {showMessage && (
+        <div className="message">You can only drop one item at a time!</div>
+      )}
     </>
   );
 };
