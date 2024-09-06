@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore/lite";
 import { db } from "../../../../db/db"; // Adjust the path as necessary
@@ -16,6 +16,7 @@ const DragDelete = ({
   const [deletedApps, setDeletedApps] = useState([]);
   const [selectedApp, setSelectedApp] = useState(null);
   const [deleteReason, setDeleteReason] = useState("");
+  const [originalIndexMap, setOriginalIndexMap] = useState(new Map()); // To store original indices
 
   const handleDeleteApp = async (appId) => {
     const appToDelete = trashApps.find((app) => app.id === appId);
@@ -45,14 +46,43 @@ const DragDelete = ({
 
     if (!destination) return;
 
-    // If the app is dropped in the trash
-    if (destination.droppableId === "trash") {
+    // Move app from apps to trash
+    if (
+      source.droppableId === "appsContainer" &&
+      destination.droppableId === "trash"
+    ) {
       const appToDelete = apps[source.index];
       setTrashApps((prevTrashApps) => [...prevTrashApps, appToDelete]);
       setApps((prevApps) =>
         prevApps.filter((app) => app.id !== appToDelete.id)
       );
       setSelectedApp(appToDelete);
+      setOriginalIndexMap((prevMap) =>
+        new Map(prevMap).set(appToDelete.id, source.index)
+      ); // Store original index
+    }
+
+    // Move app from trash back to apps
+    if (
+      source.droppableId === "trash" &&
+      destination.droppableId === "appsContainer"
+    ) {
+      const appToRestore = trashApps[source.index];
+      setApps((prevApps) => {
+        const updatedApps = [...prevApps];
+        const originalIndex = originalIndexMap.get(appToRestore.id); // Get original index
+        updatedApps.splice(originalIndex, 0, appToRestore); // Insert app back at its original index
+        return updatedApps;
+      });
+      setTrashApps((prevTrashApps) =>
+        prevTrashApps.filter((app) => app.id !== appToRestore.id)
+      );
+      setSelectedApp(null);
+      setOriginalIndexMap((prevMap) => {
+        const newMap = new Map(prevMap);
+        newMap.delete(appToRestore.id); // Remove from original index map
+        return newMap;
+      });
     }
   };
 
