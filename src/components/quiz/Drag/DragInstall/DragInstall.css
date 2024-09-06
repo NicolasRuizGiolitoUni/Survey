@@ -1,5 +1,6 @@
-.title {
+#install-title {
   font-size: 22px;
+  margin-bottom: 0px;
 }
 
 /* adas*/
@@ -49,7 +50,7 @@
 }
 
 #apps-install.apps-container {
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 .app-item {

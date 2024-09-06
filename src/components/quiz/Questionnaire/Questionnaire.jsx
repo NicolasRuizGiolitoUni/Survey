@@ -16,7 +16,7 @@ const Questionnaire = ({
   return (
     <div className="card">
       {question && (
-        <>
+        <div className="the-survey">
           <h2>
             {index + 1}. {question.question}
           </h2>
@@ -65,10 +65,10 @@ const Questionnaire = ({
               onChange={handleOpenAnswer}
             />
           )}
-        </>
+        </div>
       )}
 
-      <div className="buttons-container">
+      <div className="buttons-container-survey">
         <button
           onClick={handleBack}
           disabled={index === 0}
@@ -87,7 +87,7 @@ const Questionnaire = ({
         </button>
       </div>
 
-      <div className="progress-bar">
+      <div className="progress-bar" id="number-questions">
         <p>
           Question {index + 1} of {totalQuestions}
         </p>

@@ -2,11 +2,10 @@
   font-size: 22px;
 }
 
-.paragraph {
+#paragraph-drag-intro {
   font-size: 18px;
   margin-top: 10px;
-  margin-bottom: 1px; /* Align with DragIntro if intended */
-  max-width: 600px;
+  margin-bottom: 70px; /* Align with DragIntro if intended */
 }
 
 .start-button {
@@ -27,9 +26,8 @@
 
 .buttons-container {
   padding: 10px 50px;
-  margin-top: 30px;
   display: flex;
-  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .spacing {

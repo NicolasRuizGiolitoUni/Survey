@@ -45,7 +45,9 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
 
   return (
     <>
-      <h2 className="title">Now it's time to install some apps!</h2>
+      <h2 className="title" id="install-title">
+        Now it's time to install some apps!
+      </h2>
       <p id="paragraph">
         Enter the names of the apps you can't live without,{" "}
         <strong>along with the reasons you need them</strong>. Then, on the

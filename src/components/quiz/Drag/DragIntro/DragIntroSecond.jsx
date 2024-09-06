@@ -5,7 +5,7 @@ const DragIntroSecond = ({ next, back }) => {
   return (
     <>
       <h2 className="title">What apps you can't live without?</h2>
-      <p className="paragraph">
+      <p id="paragraph-drag-intro">
         Take your time as you reflect on how these apps help you through your
         day.{" "}
         <strong>
@@ -14,7 +14,6 @@ const DragIntroSecond = ({ next, back }) => {
         </strong>
       </p>
 
-      <div className="spacing"></div>
       <div className="buttons-container">
         <button className="start-button" onClick={back}>
           <span className="material-symbols-outlined">arrow_back</span>

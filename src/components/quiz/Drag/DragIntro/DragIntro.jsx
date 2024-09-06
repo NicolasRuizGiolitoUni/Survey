@@ -5,7 +5,7 @@ const DragIntro = ({ next }) => {
   return (
     <>
       <h2 className="title">What apps you can't live without?</h2>
-      <p className="paragraph">
+      <p id="paragraph-drag-intro">
         Imagine your current smartphone breaks and you are given a blank slate
         to customize your perfect phone from scratch. However, this phone{" "}
         <strong>

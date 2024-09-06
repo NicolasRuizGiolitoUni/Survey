@@ -2,11 +2,10 @@
   font-size: 22px;
 }
 
-.paragraph {
+#paragraph-drag-intro {
   font-size: 18px;
   margin-top: 10px;
-  margin-bottom: 30px; /* Ensure this matches your design */
-  max-width: 600px;
+  margin-bottom: 30px;
 }
 
 .start-button {

@@ -13,6 +13,7 @@
 
 .card h2 {
   font-size: 22px;
+  margin-bottom: 20px;
 }
 
 .card ul li {
@@ -28,10 +29,10 @@
   cursor: pointer;
 }
 
-.buttons-container {
+.buttons-container-survey {
   display: flex;
   justify-content: space-between;
-  position: absolute;
+
   padding: 20px 50px;
   bottom: 20px;
   left: 0;
@@ -59,10 +60,9 @@
   color: black;
 }
 
-.progress-bar {
-  font-size: 16px;
-  margin-top: 50px;
-  align-self: center;
+#number-questions.progress-bar {
+  font-size: 11px;
+  margin-top: 0px;
 }
 
 .answer {
@@ -74,7 +74,7 @@
   padding-left: 15px;
   border: 0;
   border-radius: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -104,6 +104,21 @@
 }
 
 .open-answer::placeholder {
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
   color: grey;
+}
+
+.progress-bar {
+  align-self: center;
+  font-size: 11px;
+}
+
+.subquestion {
+  margin-bottom: 0px;
+}
+
+.the-surveys {
+  margin-top: 100px;
+  margin-bottom: 40px;
 }
