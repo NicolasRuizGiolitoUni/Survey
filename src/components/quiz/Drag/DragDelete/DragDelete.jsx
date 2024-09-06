@@ -18,9 +18,18 @@ const DragDelete = ({
   const [deleteReason, setDeleteReason] = useState("");
   const [originalIndexMap, setOriginalIndexMap] = useState(new Map());
   const [isTrashOccupied, setIsTrashOccupied] = useState(false);
-  const [showMessage, setShowMessage] = useState(false); // State to control the visibility of the message
+  const [showMessage, setShowMessage] = useState("");
+  const [charCount, setCharCount] = useState(0); // State for character count
 
   const handleDeleteApp = async (appId) => {
+    if (charCount < 150) {
+      setShowMessage("Enter at least 150 characters"); // Show message for insufficient characters
+      setTimeout(() => {
+        setShowMessage(""); // Hide the message after 3 seconds
+      }, 3000);
+      return; // Exit the function early
+    }
+
     const appToDelete = trashApps.find((app) => app.id === appId);
     setTrashApps((prevTrashApps) =>
       prevTrashApps.filter((app) => app.id !== appId)
@@ -42,6 +51,7 @@ const DragDelete = ({
     setSelectedApp(null);
     setDeleteReason("");
     setIsTrashOccupied(false);
+    setCharCount(0); // Reset character count
   };
 
   const handleDragEnd = (result) => {
@@ -55,9 +65,9 @@ const DragDelete = ({
       destination.droppableId === "trash"
     ) {
       if (isTrashOccupied) {
-        setShowMessage(true); // Show the message if trash can is occupied
+        setShowMessage("You can only drop one item at a time!"); // Show message if trash can is occupied
         setTimeout(() => {
-          setShowMessage(false); // Hide the message after 3 seconds
+          setShowMessage(""); // Hide the message after 3 seconds
         }, 3000);
         return; // Exit the function early
       }
@@ -99,6 +109,12 @@ const DragDelete = ({
     }
   };
 
+  const handleChangeReason = (e) => {
+    const newReason = e.target.value;
+    setDeleteReason(newReason);
+    setCharCount(newReason.length); // Update character count
+  };
+
   return (
     <>
       <h2 className="title">Oops! Your storage is already full! {":("}</h2>
@@ -106,7 +122,9 @@ const DragDelete = ({
         You can only keep <strong>5 apps</strong>. Choose the ones you
         definitely can't live without and drag and drop the rest to the trash
         can below. When deleting the apps,{" "}
-        <strong>enter the reason why you decided to delete them.</strong>
+        <strong>
+          Why are you deleting this app? Enter at least 150 characters.
+        </strong>
       </p>
 
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -168,12 +186,13 @@ const DragDelete = ({
                               className="delete-reason"
                               placeholder="Enter reason for deleting this app"
                               value={deleteReason}
-                              onChange={(e) => setDeleteReason(e.target.value)}
+                              onChange={handleChangeReason}
                             ></textarea>
                             <button
-                              className="delete-button"
+                              className={`delete-button ${
+                                charCount < 150 ? "disabled" : ""
+                              }`}
                               onClick={() => handleDeleteApp(app.id)}
-                              disabled={!deleteReason}
                             >
                               Delete
                             </button>
@@ -199,9 +218,7 @@ const DragDelete = ({
         </button>
       </div>
 
-      {showMessage && (
-        <div className="message">You can only drop one item at a time!</div>
-      )}
+      {showMessage && <div className="message">{showMessage}</div>}
     </>
   );
 };
