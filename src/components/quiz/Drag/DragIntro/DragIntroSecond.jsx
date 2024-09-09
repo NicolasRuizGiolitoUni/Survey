@@ -15,10 +15,10 @@ const DragIntroSecond = ({ next, back }) => {
       </p>
 
       <div className="buttons-container">
-        <button className="start-button" onClick={back}>
+        <button className="back-next-button" onClick={back}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <button className="start-button" onClick={next}>
+        <button className="back-next-button" onClick={next}>
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>

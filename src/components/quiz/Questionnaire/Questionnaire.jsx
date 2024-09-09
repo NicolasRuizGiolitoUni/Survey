@@ -16,7 +16,7 @@ const Questionnaire = ({
   return (
     <div className="card">
       {question && (
-        <div className="the-survey">
+        <>
           <h2>
             {index + 1}. {question.question}
           </h2>
@@ -65,32 +65,29 @@ const Questionnaire = ({
               onChange={handleOpenAnswer}
             />
           )}
-        </div>
+        </>
       )}
 
-      <div className="buttons-container-survey">
+      <div className="buttons-container questionnaire">
         <button
           onClick={handleBack}
           disabled={index === 0}
-          className={`nav-button ${index === 0 ? "disabled" : "enabled"}`}
+          className={`back-next-button ${index === 0 ? "disabled" : "enabled"}`}
         >
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
+        <p>
+          Question {index + 1} of {totalQuestions}
+        </p>
         <button
           onClick={handleNext}
           disabled={!isNextButtonEnabled()}
-          className={`nav-button ${
+          className={`back-next-button ${
             !isNextButtonEnabled() ? "disabled" : "enabled"
           }`}
         >
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
-      </div>
-
-      <div className="progress-bar" id="number-questions">
-        <p>
-          Question {index + 1} of {totalQuestions}
-        </p>
       </div>
     </div>
   );

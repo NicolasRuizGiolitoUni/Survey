@@ -51,11 +51,11 @@ const DragOS = ({ next, back, docId }) => {
 
       <div className="spacing"></div>
       <div className="buttons-container">
-        <button className="start-button" onClick={back}>
+        <button className="back-next-button" onClick={back}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <button
-          className="start-button"
+          className="back-next-button"
           onClick={handleNext}
           disabled={!selectedOS}
         >

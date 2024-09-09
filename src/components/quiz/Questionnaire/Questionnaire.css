@@ -1,16 +1,3 @@
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background: #f3f3f3;
-  height: auto;
-  margin-top: 20px;
-  width: 600px;
-  padding: 40px 50px;
-  border-radius: 15px;
-  position: relative;
-}
-
 .card h2 {
   font-size: 22px;
   margin-bottom: 20px;
@@ -33,7 +20,6 @@
   display: flex;
   justify-content: space-between;
 
-  padding: 20px 50px;
   bottom: 20px;
   left: 0;
   right: 0;
@@ -121,4 +107,8 @@
 .the-surveys {
   margin-top: 100px;
   margin-bottom: 40px;
+}
+
+.questionnaire {
+  align-items: baseline;
 }

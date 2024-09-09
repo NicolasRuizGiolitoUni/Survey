@@ -9,7 +9,6 @@
 }
 
 .start-button {
-  padding: 10px 50px;
   font-size: 18px;
   margin: auto;
   border: none;
@@ -18,6 +17,10 @@
   color: rgb(0, 0, 0);
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+}
+
+.intro {
+  margin: auto;
 }
 
 .start-button:hover {

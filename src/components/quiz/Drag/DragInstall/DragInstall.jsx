@@ -7,40 +7,58 @@ import "./DragInstall.css";
 const DragInstall = ({ next, back, apps, setApps, docId }) => {
   const [appName, setAppName] = useState("");
   const [appReason, setAppReason] = useState("");
+  const [showMessage, setShowMessage] = useState("");
+  const [charCount, setCharCount] = useState(0);
 
-  const isAddButtonDisabled = !appName || !appReason;
+  const isAddButtonDisabled = !appName || charCount < 150;
+  const isNextButtonDisabled = apps.length < 8;
 
   const handleAddApp = async () => {
-    if (!isAddButtonDisabled) {
-      const newApp = {
-        id: `app-${Date.now()}`, // Ensure each app has a unique id
-        name: appName,
-        reason: appReason,
-      };
-
-      // Update the state
-      setApps((prevApps) => [...prevApps, newApp]);
-
-      // Update Firestore document
-      try {
-        const docRef = doc(db, "surveyResponses", docId);
-        await updateDoc(docRef, {
-          Selected_apps: arrayUnion(newApp), // Add the new app to the array of apps in Firestore
-        });
-        console.log("App added to Firestore:", newApp);
-      } catch (error) {
-        console.error("Error updating document:", error);
-      }
-
-      // Reset input fields
-      setAppName("");
-      setAppReason("");
+    if (isAddButtonDisabled) {
+      setShowMessage("Enter at least 150 characters");
+      setTimeout(() => setShowMessage(""), 3000);
+      return;
     }
+
+    const newApp = {
+      id: `app-${Date.now()}`,
+      name: appName,
+      reason: appReason,
+    };
+
+    setApps((prevApps) => [...prevApps, newApp]);
+
+    try {
+      const docRef = doc(db, "surveyResponses", docId);
+      await updateDoc(docRef, {
+        Selected_apps: arrayUnion(newApp),
+      });
+      console.log("App added to Firestore:", newApp);
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+
+    setAppName("");
+    setAppReason("");
+    setCharCount(0);
   };
 
   const handleNext = () => {
+    if (isNextButtonDisabled) {
+      setShowMessage("Enter at least 8 apps");
+      setTimeout(() => setShowMessage(""), 3000);
+      return;
+    }
+
+    // Proceed to the next step
     console.log("Apps:", apps);
     next();
+  };
+
+  const handleChangeReason = (e) => {
+    const newReason = e.target.value;
+    setAppReason(newReason);
+    setCharCount(newReason.length);
   };
 
   return (
@@ -49,9 +67,9 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
         Now it's time to install some apps!
       </h2>
       <p id="paragraph">
-        Enter the names of the apps you can't live without,{" "}
-        <strong>along with the reasons you need them</strong>. Then, on the
-        phone below, drag and drop them{" "}
+        Enter the names of at <strong>least 8 apps</strong> you can't live
+        without, <strong>along with the reasons you need them</strong>. Then, on
+        the phone below, drag and drop them{" "}
         <strong> in order of importance </strong> from top to bottom.
       </p>
 
@@ -63,15 +81,14 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       />
       <textarea
         type="text"
-        placeholder="Why is this app indispensable for you? Enter min. 20 words"
+        placeholder="Why is this app indispensable for you? Enter min. 150 characters"
         value={appReason}
-        onChange={(e) => setAppReason(e.target.value)}
+        onChange={handleChangeReason}
         id="reason"
       />
       <button
         className={`add-button ${isAddButtonDisabled ? "disabled" : ""}`}
         onClick={handleAddApp}
-        disabled={isAddButtonDisabled}
       >
         Add
       </button>
@@ -104,13 +121,20 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       </Droppable>
 
       <div className="buttons-container">
-        <button className="start-button" onClick={back}>
+        <button className="back-next-button" onClick={back}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <button className="start-button" onClick={handleNext}>
+        <button
+          className={`back-next-button ${
+            isNextButtonDisabled ? "disabled" : ""
+          }`}
+          onClick={handleNext}
+        >
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>
+
+      {showMessage && <div className="message">{showMessage}</div>}
     </>
   );
 };

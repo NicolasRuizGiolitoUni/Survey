@@ -17,7 +17,7 @@ const DragIntro = ({ next }) => {
       </p>
 
       <button className="start-button" onClick={next}>
-        <span className="material-symbols-outlined">arrow_forward</span>
+        <p>Next</p>
       </button>
     </>
   );

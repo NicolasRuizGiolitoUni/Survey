@@ -12,26 +12,15 @@
   max-width: 600px;
 }
 
-.start-button {
-  padding: 10px 50px;
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  background: #ffffff;
-  color: rgb(0, 0, 0);
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+.back-next-button.disabled {
+  background-color: #ffffff;
+  color: #b0b0b0;
+  cursor: not-allowed;
 }
 
 .start-button:hover {
   background-color: #c2ff6d;
   color: rgb(0, 0, 0);
-}
-
-.buttons-container {
-  padding: 10px 50px;
-  display: flex;
-  flex-direction: row;
 }
 
 .spacing {
@@ -60,6 +49,16 @@
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
+}
+
+.app-name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 15px;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide text that overflows */
+  text-overflow: ellipsis; /* Display ellipses for overflowed text */
+  max-width: 150px; /* Set a max-width to ensure text is truncated */
 }
 
 .add-button {
@@ -115,4 +114,18 @@ input {
 .app-name {
   font-size: 18px;
   align-items: center;
+}
+
+.message {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffcccc;
+  color: #cc0000;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000; /* Ensure the message is on top of other content */
+  transition: opacity 0.3s ease-out;
 }

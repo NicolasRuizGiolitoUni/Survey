@@ -10,32 +10,9 @@
   font-weight: 500;
 }
 
-.paragraph {
-  font-size: 18px;
-  margin-top: 50px;
-  margin-bottom: 1px;
-  max-width: 600px;
-}
-
-.start-button {
-  padding: 10px 50px;
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  background: #c2ff6d;
-  color: rgb(0, 0, 0);
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
 .start-button:hover {
   background-color: #c2ff6d;
   color: rgb(0, 0, 0);
-}
-
-.buttons-container {
-  padding: 10px 50px;
-  margin-top: 30px;
 }
 
 .spacing {
@@ -60,7 +37,7 @@
   color: white;
 }
 
-.start-button:disabled {
+.back-next-button:disabled {
   background: white;
   color: grey;
   cursor: not-allowed;

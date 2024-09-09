@@ -19,7 +19,9 @@ const DragDelete = ({
   const [originalIndexMap, setOriginalIndexMap] = useState(new Map());
   const [isTrashOccupied, setIsTrashOccupied] = useState(false);
   const [showMessage, setShowMessage] = useState("");
+  const [showNextButtonMessage, setShowNextButtonMessage] = useState(""); // State for Next button message
   const [charCount, setCharCount] = useState(0); // State for character count
+  const [appCount, setAppCount] = useState(apps.length); // Track the number of apps
 
   const handleDeleteApp = async (appId) => {
     if (charCount < 150) {
@@ -82,6 +84,7 @@ const DragDelete = ({
         new Map(prevMap).set(appToDelete.id, source.index)
       );
       setIsTrashOccupied(true);
+      setAppCount((prevCount) => prevCount - 1); // Update app count
     }
 
     // Move app from trash back to apps
@@ -106,6 +109,7 @@ const DragDelete = ({
         return newMap;
       });
       setIsTrashOccupied(false);
+      setAppCount((prevCount) => prevCount + 1); // Update app count
     }
   };
 
@@ -114,6 +118,19 @@ const DragDelete = ({
     setDeleteReason(newReason);
     setCharCount(newReason.length); // Update character count
   };
+
+  const handleClickNext = () => {
+    if (appCount > 5) {
+      setShowNextButtonMessage("Delete more apps until 5 are left!"); // Show message for too many apps
+      setTimeout(() => {
+        setShowNextButtonMessage(""); // Hide the message after 3 seconds
+      }, 3000);
+      return; // Exit the function early
+    }
+    next();
+  };
+
+  const isNextButtonDisabled = appCount > 5;
 
   return (
     <>
@@ -126,7 +143,6 @@ const DragDelete = ({
           Why are you deleting this app? Enter at least 150 characters.
         </strong>
       </p>
-
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="appsContainer">
           {(provided) => (
@@ -178,7 +194,9 @@ const DragDelete = ({
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <div className="app-name">{app.name}</div>
+                        <div className="app-name" id="app-name-trash">
+                          {app.name}
+                        </div>
 
                         {selectedApp && selectedApp.id === app.id && (
                           <>
@@ -208,17 +226,24 @@ const DragDelete = ({
           </Droppable>
         </div>
       </DragDropContext>
-
       <div id="buttons-delete" className="buttons-container">
-        <button className="start-button" onClick={back}>
+        <button className="back-next-button" onClick={back}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <button className="start-button" onClick={next}>
+        <button
+          className={`back-next-button ${
+            isNextButtonDisabled ? "disabled" : ""
+          }`}
+          onClick={handleClickNext} // Updated to use handleClickNext
+        >
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>
-
       {showMessage && <div className="message">{showMessage}</div>}
+      {showNextButtonMessage && (
+        <div className="message">{showNextButtonMessage}</div>
+      )}{" "}
+      {/* Added message for Next button */}
     </>
   );
 };

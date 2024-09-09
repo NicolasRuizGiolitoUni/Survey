@@ -8,26 +8,25 @@
   margin-bottom: 70px; /* Align with DragIntro if intended */
 }
 
-.start-button {
+.back-next-button {
   padding: 10px 50px;
   font-size: 18px;
   border: none;
   border-radius: 10px;
-  background: #ffffff;
-  color: rgb(0, 0, 0);
+  background: #c2ff6d;
+  color: black;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.start-button:hover {
+.back-next-button:hover {
   background-color: #c2ff6d;
   color: rgb(0, 0, 0);
 }
 
 .buttons-container {
-  padding: 10px 50px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .spacing {

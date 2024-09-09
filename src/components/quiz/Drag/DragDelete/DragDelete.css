@@ -10,7 +10,6 @@
 }
 
 .start-button {
-  padding: 10px 50px;
   font-size: 18px;
   border: none;
   border-radius: 10px;
@@ -26,14 +25,12 @@
 }
 
 .buttons-container {
-  padding: 10px 50px;
-  margin-top: 70px;
   display: flex;
   flex-direction: row;
 }
 
 #buttons-delete {
-  margin-top: 20px;
+  margin-top: 60px;
 }
 
 .apps-container {
@@ -75,10 +72,11 @@
   text-align: center;
 }
 
-.app-name {
+#app-name-trash.app-name {
   font-weight: bold;
   font-size: 16px;
   margin-bottom: 15px;
+  align-self: center;
 }
 
 .delete-reason {
