@@ -1,0 +1,28 @@
+.chosen-apps-container {
+  background: rgb(29, 179, 49);
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  min-height: 100px;
+}
+
+.choose-button {
+  margin-top: 15px;
+  background: red;
+  padding: 5px;
+  width: 30%;
+  align-self: center;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+
+.choose-button:hover {
+  background-color: darkred;
+}

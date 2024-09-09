@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Survey.css";
 import { data } from "../../assets/data/data";
 import Questionnaire from "./Questionnaire/Questionnaire";
-import { doc, setDoc, updateDoc } from "firebase/firestore/lite";
+import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore/lite";
 import { db } from "../../db/db";
 
 const Survey = ({ goToNextComponent, goToPreviousComponent, docId }) => {
