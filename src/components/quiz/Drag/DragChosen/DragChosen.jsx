@@ -88,11 +88,11 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
 
   return (
     <>
-      <h2 className="title">Choose your essential apps!</h2>
-      <p id="paragraph-chosen">
-        Select up to <strong>5 essential apps</strong> you can't live without.
-        Drag and drop them into the green container below and explain{" "}
-        <strong>why you chose them (min. 150 characters)</strong>.
+      <h2 className="title">Time to save your most important apps!</h2>
+      <hr></hr>
+      <p id="paragraph">
+        Now drag and drop your the 5 remaining apps in the box below and enter{" "}
+        <strong>why they they are the most important ones to you. </strong>
       </p>
 
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -134,6 +134,7 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
+              <h3>Drag to Save</h3>
               {chosenApps.map((app, index) => (
                 <Draggable
                   key={app.id.toString()}
@@ -152,7 +153,7 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <div className="app-name" id="app-name-chosen">
+                      <div className="app-name" id="app-name-trash">
                         {app.name}
                       </div>
 
@@ -160,18 +161,18 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
                         selectedApp.id.toString() === app.id.toString() && (
                           <>
                             <textarea
-                              className="choose-reason"
+                              className="delete-reason"
                               placeholder="Enter reason for choosing this app"
                               value={chooseReason}
                               onChange={handleChangeReason}
                             ></textarea>
                             <button
-                              className={`choose-button ${
+                              className={`delete-button ${
                                 charCount < 150 ? "disabled" : ""
                               }`}
                               onClick={() => handleChooseApp(app.id)}
                             >
-                              Choose
+                              Save
                             </button>
                           </>
                         )}
@@ -185,7 +186,7 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
         </Droppable>
       </DragDropContext>
 
-      <div id="buttons-chosen" className="buttons-container">
+      <div className="buttons-container">
         <button className="back-next-button" onClick={back}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>

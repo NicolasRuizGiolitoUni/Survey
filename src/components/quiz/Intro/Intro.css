@@ -1,25 +1,13 @@
-.card h2 {
-  font-size: 22px;
-}
-
-#intro-text {
+.paragraph {
   font-size: 18px;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 70px;
   max-width: 600px;
+  margin-bottom: 20px;
 }
 
-.start-button {
-  padding: 10px 50px;
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  background: #ffffff;
-  color: black;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.start-button:hover {
-  background-color: #a6d657;
+.card hr {
+  border-color: rgba(187, 187, 187, 0.224);
+  border-width: 0.1px;
+  width: 100%;
 }

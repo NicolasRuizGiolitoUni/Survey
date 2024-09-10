@@ -5,7 +5,8 @@ const Intro = ({ goToNextComponent }) => {
   return (
     <div className="card">
       <h2>Welcome to the Survey!</h2>
-      <p id="intro-text">
+      <hr></hr>
+      <p className="paragraph">
         We appreciate your participation in this survey. Your responses will
         help us understand user experiences better. Click "Start" to begin the
         survey.

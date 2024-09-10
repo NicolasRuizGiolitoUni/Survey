@@ -9,21 +9,6 @@
   max-width: 600px;
 }
 
-.start-button {
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  background: #ffffff;
-  color: rgb(0, 0, 0);
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.start-button:hover {
-  background-color: #c2ff6d;
-  color: rgb(0, 0, 0);
-}
-
 .buttons-container {
   display: flex;
   flex-direction: row;
@@ -41,7 +26,7 @@
 }
 
 .trash-container {
-  margin-bottom: 0px;
+  margin-bottom: 20px;
 }
 
 .trash-can {

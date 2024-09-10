@@ -2,31 +2,33 @@
   font-size: 22px;
 }
 
-#paragraph-drag-intro {
-  font-size: 18px;
-  margin-top: 10px;
-  margin-bottom: 70px; /* Align with DragIntro if intended */
-}
-
 .back-next-button {
   padding: 10px 50px;
   font-size: 18px;
-  border: none;
-  border-radius: 10px;
+  border-width: 0;
+  border-radius: 15px;
   background: #c2ff6d;
   color: black;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.back-next-button:hover {
-  background-color: #c2ff6d;
-  color: rgb(0, 0, 0);
+.back {
+  padding: 10px 50px;
+  font-size: 18px;
+  border-radius: 15px;
+  background: none;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.374);
 }
 
 .buttons-container {
+  margin-top: 50px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .spacing {

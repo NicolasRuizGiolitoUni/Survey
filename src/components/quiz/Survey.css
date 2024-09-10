@@ -5,10 +5,6 @@
   margin-bottom: 50px;
 }
 
-#survey-container {
-  margin-top: 0;
-}
-
 .card {
   display: flex;
   flex-direction: column;
@@ -18,12 +14,8 @@
   margin-top: 20px;
   width: 600px;
   padding: 40px 60px;
-  border-radius: 15px;
+  border-radius: 30px;
   position: relative;
-}
-
-.card h2 {
-  font-size: 22px;
 }
 
 .card ul li {
@@ -37,38 +29,6 @@
   border-radius: 20px;
 
   cursor: pointer;
-}
-
-.buttons-container-survey {
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  margin-top: 70px;
-}
-
-.nav-button {
-  padding: 10px 40px;
-  margin-top: 30px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.nav-button.disabled {
-  background: white;
-  color: grey;
-  cursor: not-allowed;
-}
-
-.nav-button.enabled {
-  background: #c2ff6d;
-  color: black;
 }
 
 .progress-bar {
@@ -118,62 +78,23 @@
   color: grey;
 }
 
-.nav-button {
-  padding: 10px 40px;
-  margin-top: 30px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  background: white; /* Default background for disabled state */
-  color: black;
-}
-
-.nav-button.enabled {
-  background: #c2ff6d; /* Green when enabled */
-}
-
-.nav-button.disabled {
-  background: white; /* White when disabled */
-  color: grey; /* Grey text when disabled */
-}
-
-.intro-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-}
-
-.intro-screen h2 {
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.intro-screen p {
-  font-size: 18px;
-  margin-bottom: 30px;
-  max-width: 600px;
-}
-
 .start-button {
-  padding: 10px 20px;
+  margin-top: 50px;
+  padding: 10px 50px;
   font-size: 18px;
   border: none;
-  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px;
   background: #c2ff6d;
   color: black;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.start-button:hover {
-  background-color: #a6d657;
 }
 
 .thanks {
-  font-size: 48;
+  margin-top: 50px;
+  font-size: 50px;
+  font-weight: bolder;
   align-self: center;
   align-items: center;
 }

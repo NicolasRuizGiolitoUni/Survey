@@ -12,15 +12,15 @@ const HomePage = () => {
 
   useEffect(() => {
     const initializeDocument = async () => {
-      if (docId) return; // Skip if document ID already exists
+      if (docId) return;
 
       const newDocRef = doc(collection(db, "surveyResponses"));
-      await setDoc(newDocRef, {}); // Create an empty document
-      setDocId(newDocRef.id); // Set document ID in state
+      await setDoc(newDocRef, {});
+      setDocId(newDocRef.id);
     };
 
     initializeDocument();
-    console.log("docId: ", docId);
+    console.log("Current docId in HomePage: ", docId);
   }, [docId]); // Dependency on docId ensures document is created only once
 
   const goToNextComponent = () => {

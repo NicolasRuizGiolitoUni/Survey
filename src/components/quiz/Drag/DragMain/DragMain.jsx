@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./DragMain.css";
+
 import DragIntro from "../DragIntro/DragIntro";
 import DragInstall from "../DragInstall/DragInstall";
 import DragIntroSecond from "../DragIntro/DragIntroSecond";

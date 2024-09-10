@@ -135,7 +135,8 @@ const DragDelete = ({
   return (
     <>
       <h2 className="title">Oops! Your storage is already full! {":("}</h2>
-      <p id="paragraph-delete">
+      <hr></hr>
+      <p id="paragraph">
         You can only keep <strong>5 apps</strong>. Choose the ones you
         definitely can't live without and drag and drop the rest to the trash
         can below. When deleting the apps,{" "}
@@ -226,9 +227,9 @@ const DragDelete = ({
           </Droppable>
         </div>
       </DragDropContext>
-      <div id="buttons-delete" className="buttons-container">
-        <button className="back-next-button" onClick={back}>
-          <span className="material-symbols-outlined">arrow_back</span>
+      <div className="buttons-container">
+        <button className="back-next-button back" onClick={back}>
+          <p>Back</p>
         </button>
         <button
           className={`back-next-button ${
@@ -236,7 +237,7 @@ const DragDelete = ({
           }`}
           onClick={handleClickNext} // Updated to use handleClickNext
         >
-          <span className="material-symbols-outlined">arrow_forward</span>
+          <p>Next</p>
         </button>
       </div>
       {showMessage && <div className="message">{showMessage}</div>}

@@ -31,12 +31,9 @@ const DragOS = ({ next, back, docId }) => {
 
   return (
     <>
-      <h2 className="title" id="title-os">
-        Let's start customizing your new phone!
-      </h2>
-      <h2 className="title" id="question-os">
-        What OS would you like to use?
-      </h2>
+      <h2 className="title">Let's start customizing your new phone!</h2>
+      <hr></hr>
+      <h2 className="title os">What OS would you like to use?</h2>
       <ul>
         {osOptions.map((os, id) => (
           <li
@@ -49,17 +46,16 @@ const DragOS = ({ next, back, docId }) => {
         ))}
       </ul>
 
-      <div className="spacing"></div>
       <div className="buttons-container">
-        <button className="back-next-button" onClick={back}>
-          <span className="material-symbols-outlined">arrow_back</span>
+        <button className="next-button back" onClick={back}>
+          <p>Back</p>
         </button>
         <button
           className="back-next-button"
           onClick={handleNext}
           disabled={!selectedOS}
         >
-          <span className="material-symbols-outlined">arrow_forward</span>
+          <p>Next</p>
         </button>
       </div>
     </>

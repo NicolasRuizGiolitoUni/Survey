@@ -14,13 +14,8 @@
 
 .back-next-button.disabled {
   background-color: #ffffff;
-  color: #b0b0b0;
+  color: #00000079;
   cursor: not-allowed;
-}
-
-.start-button:hover {
-  background-color: #c2ff6d;
-  color: rgb(0, 0, 0);
 }
 
 .spacing {

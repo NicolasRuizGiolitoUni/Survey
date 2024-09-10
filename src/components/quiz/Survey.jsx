@@ -150,7 +150,7 @@ const Survey = ({ goToNextComponent, goToPreviousComponent, docId }) => {
     <div className="app-container" id="survey-container">
       <div className="center-container">
         {completed ? (
-          <div className="thannks">Thank you!</div>
+          <div className="thanks">Thank you!</div>
         ) : (
           <Questionnaire
             question={question}

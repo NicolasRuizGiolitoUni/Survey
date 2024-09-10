@@ -5,9 +5,10 @@
   border-radius: 20px;
   text-align: center;
   min-height: 100px;
+  margin-bottom: 20px;
 }
 
-.choose-button {
+.delete-button {
   margin-top: 15px;
   background: red;
   padding: 5px;

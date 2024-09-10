@@ -20,6 +20,7 @@ const Questionnaire = ({
           <h2>
             {index + 1}. {question.question}
           </h2>
+          <hr></hr>
 
           {question.subquestion && (
             <p className="subquestion">{question.subquestion}</p>

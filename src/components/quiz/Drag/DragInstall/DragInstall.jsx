@@ -66,6 +66,7 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       <h2 className="title" id="install-title">
         Now it's time to install some apps!
       </h2>
+      <hr></hr>
       <p id="paragraph">
         Enter the names of at <strong>least 8 apps</strong> you can't live
         without, <strong>along with the reasons you need them</strong>. Then, on
@@ -121,8 +122,8 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       </Droppable>
 
       <div className="buttons-container">
-        <button className="back-next-button" onClick={back}>
-          <span className="material-symbols-outlined">arrow_back</span>
+        <button className="back-next-button back" onClick={back}>
+          <p>Back</p>
         </button>
         <button
           className={`back-next-button ${
@@ -130,7 +131,7 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
           }`}
           onClick={handleNext}
         >
-          <span className="material-symbols-outlined">arrow_forward</span>
+          <p>Next</p>
         </button>
       </div>
 
