@@ -10,6 +10,7 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
   const [chooseReason, setChooseReason] = useState("");
   const [charCount, setCharCount] = useState(0);
   const [showMessage, setShowMessage] = useState("");
+  const [appReasons, setAppReasons] = useState({}); // Track reasons for each app
 
   const handleChooseApp = async (appId) => {
     if (charCount < 150) {
@@ -32,6 +33,12 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
     setChosenApps((prevChosenApps) =>
       prevChosenApps.filter((app) => app.id.toString() !== appId.toString())
     );
+
+    // Save the reason for the chosen app
+    setAppReasons((prevReasons) => ({
+      ...prevReasons,
+      [appId]: chooseReason,
+    }));
 
     try {
       const docRef = doc(db, "surveyResponses", docId);
@@ -77,6 +84,11 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
       );
       setApps((prevApps) => [...prevApps, appToRestore]);
       setSelectedApp(null);
+      // Remove the reason for the restored app
+      setAppReasons((prevReasons) => {
+        const { [appToRestore.id]: _, ...rest } = prevReasons;
+        return rest;
+      });
     }
   };
 
@@ -86,13 +98,37 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
     setCharCount(newReason.length);
   };
 
+  const handleNext = () => {
+    // Check if all chosen apps have reasons
+    const allAppsSaved = chosenApps.every((app) => appReasons[app.id]);
+    if (!allAppsSaved) {
+      setShowMessage("Save all the apps before continuing");
+      setTimeout(() => setShowMessage(""), 3000);
+      return;
+    }
+
+    // Proceed to the next step
+    console.log(
+      "Chosen apps with reasons:",
+      chosenApps.map((app) => ({ name: app.name, reason: appReasons[app.id] }))
+    );
+    next();
+  };
+
+  const handleDisabledNextClick = () => {
+    setShowMessage(
+      "You must remove all apps from the app list before continuing."
+    );
+    setTimeout(() => setShowMessage(""), 3000);
+  };
+
   return (
     <>
       <h2 className="title">Time to save your most important apps!</h2>
-      <hr></hr>
+      <hr />
       <p id="paragraph">
         Now drag and drop your the 5 remaining apps in the box below and enter{" "}
-        <strong>why they they are the most important ones to you. </strong>
+        <strong>why they are the most important ones to you. </strong>
       </p>
 
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -188,10 +224,14 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
 
       <div className="buttons-container">
         <button className="back-next-button" onClick={back}>
-          <span className="material-symbols-outlined">arrow_back</span>
+          <p>Back</p>
         </button>
-        <button className="back-next-button" onClick={next}>
-          <span className="material-symbols-outlined">arrow_forward</span>
+        <button
+          className="back-next-button"
+          onClick={apps.length > 0 ? handleDisabledNextClick : handleNext}
+          disabled={apps.length > 0} // Disable if there are apps in the appsContainer
+        >
+          <p>Next</p>
         </button>
       </div>
 

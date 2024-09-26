@@ -24,6 +24,8 @@ const DragDelete = ({
   const [appCount, setAppCount] = useState(apps.length); // Track the number of apps
 
   const handleDeleteApp = async (appId) => {
+    // Check if there are 5 or fewer apps left in the apps container
+
     if (charCount < 150) {
       setShowMessage("Enter at least 150 characters"); // Show message for insufficient characters
       setTimeout(() => {
@@ -72,6 +74,13 @@ const DragDelete = ({
           setShowMessage(""); // Hide the message after 3 seconds
         }, 3000);
         return; // Exit the function early
+      }
+
+      // Prevent deletion if there are already 5 or fewer apps left
+      if (appCount <= 5) {
+        setShowMessage("You already have 5 apps. Press Next.");
+        setTimeout(() => setShowMessage(""), 3000); // Hide message after 3 seconds
+        return; // Exit function to stop dragging to trash
       }
 
       const appToDelete = apps[source.index];
@@ -207,13 +216,16 @@ const DragDelete = ({
                               value={deleteReason}
                               onChange={handleChangeReason}
                             ></textarea>
+                            {charCount < 150 && (
+                              <div className="char-count">{charCount}/150</div>
+                            )}
                             <button
                               className={`delete-button ${
                                 charCount < 150 ? "disabled" : ""
                               }`}
                               onClick={() => handleDeleteApp(app.id)}
                             >
-                              Delete
+                              Delete app
                             </button>
                           </>
                         )}
@@ -221,12 +233,19 @@ const DragDelete = ({
                     )}
                   </Draggable>
                 ))}
+
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
         </div>
       </DragDropContext>
+
+      {showMessage && (
+        <div className="message" id="delete-message">
+          {showMessage}
+        </div>
+      )}
       <div className="buttons-container">
         <button className="back-next-button back" onClick={back}>
           <p>Back</p>
@@ -240,11 +259,9 @@ const DragDelete = ({
           <p>Next</p>
         </button>
       </div>
-      {showMessage && <div className="message">{showMessage}</div>}
       {showNextButtonMessage && (
-        <div className="message">{showNextButtonMessage}</div>
-      )}{" "}
-      {/* Added message for Next button */}
+        <div className="next-message">{showNextButtonMessage}</div>
+      )}
     </>
   );
 };

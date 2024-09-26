@@ -124,3 +124,13 @@ input {
   z-index: 1000; /* Ensure the message is on top of other content */
   transition: opacity 0.3s ease-out;
 }
+
+.char-count {
+  font-size: 12px;
+  color: #b0b0b0;
+  margin-top: 5px;
+  align-self: center;
+  display: flex;
+  justify-content: flex-end;
+  width: 60%;
+}
