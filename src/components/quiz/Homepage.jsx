@@ -8,20 +8,28 @@ import { collection, doc, setDoc, getDoc } from "firebase/firestore/lite";
 const HomePage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [docId, setDocId] = useState(null);
+  const [error, setError] = useState(null); // Add error state
   const components = [Intro, DragMain, Survey];
 
   useEffect(() => {
     const initializeDocument = async () => {
       if (docId) return;
 
-      const newDocRef = doc(collection(db, "surveyResponses"));
-      await setDoc(newDocRef, {});
-      setDocId(newDocRef.id);
+      try {
+        const newDocRef = doc(collection(db, "surveyResponses"));
+        await setDoc(newDocRef, {});
+        setDocId(newDocRef.id);
+      } catch (error) {
+        setError(
+          "Something went wrong while initializing your session. Please try again."
+        ); // Set error message
+        console.error("Failed to initialize document:", error);
+      }
     };
 
     initializeDocument();
     console.log("Current docId in HomePage: ", docId);
-  }, [docId]); // Dependency on docId ensures document is created only once
+  }, [docId]);
 
   const goToNextComponent = () => {
     if (currentIndex === components.length - 1) {
@@ -45,12 +53,20 @@ const HomePage = () => {
         <div className="header">
           <h1>Not-Too-Dumb Phone Survey</h1>
         </div>
-        {docId && (
-          <CurrentComponent
-            goToNextComponent={goToNextComponent}
-            goToPreviousComponent={goToPreviousComponent}
-            docId={docId} // Pass only docId
-          />
+        {error ? (
+          <div className="error-message">
+            {error}
+            {/* Optionally add a retry button */}
+            <button onClick={() => window.location.reload()}>Retry</button>
+          </div>
+        ) : (
+          docId && (
+            <CurrentComponent
+              goToNextComponent={goToNextComponent}
+              goToPreviousComponent={goToPreviousComponent}
+              docId={docId}
+            />
+          )
         )}
       </div>
     </div>

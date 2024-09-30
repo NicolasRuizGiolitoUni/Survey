@@ -247,9 +247,6 @@ const DragDelete = ({
         </div>
       )}
       <div className="buttons-container">
-        <button className="back-next-button back" onClick={back}>
-          <p>Back</p>
-        </button>
         <button
           className={`back-next-button ${
             isNextButtonDisabled ? "disabled" : ""

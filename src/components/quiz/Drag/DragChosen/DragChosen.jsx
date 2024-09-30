@@ -223,9 +223,6 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
       </DragDropContext>
 
       <div className="buttons-container">
-        <button className="back-next-button" onClick={back}>
-          <p>Back</p>
-        </button>
         <button
           className="back-next-button"
           onClick={apps.length > 0 ? handleDisabledNextClick : handleNext}
