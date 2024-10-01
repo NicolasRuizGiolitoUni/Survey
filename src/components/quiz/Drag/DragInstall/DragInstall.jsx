@@ -89,7 +89,7 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
         Now it's time to install some apps!
       </h2>
       <hr />
-      <p id="paragraph">
+      <p class="paragraph">
         Enter the names of at <strong>least 8 apps</strong> you can't live
         without, <strong>along with the reasons you need them</strong>. Then, on
         the phone below, drag and drop them{" "}

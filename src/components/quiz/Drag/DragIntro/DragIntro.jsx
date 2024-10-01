@@ -1,5 +1,4 @@
 import React from "react";
-import "./DragIntro.css";
 
 const DragIntro = ({ next }) => {
   return (

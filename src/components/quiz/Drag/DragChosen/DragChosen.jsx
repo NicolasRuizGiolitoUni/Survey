@@ -126,7 +126,7 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
     <>
       <h2 className="title">Time to save your most important apps!</h2>
       <hr />
-      <p id="paragraph">
+      <p className="paragraph">
         Now drag and drop your the 5 remaining apps in the box below and enter{" "}
         <strong>why they are the most important ones to you. </strong>
       </p>

@@ -145,7 +145,7 @@ const DragDelete = ({
     <>
       <h2 className="title">Oops! Your storage is already full! {":("}</h2>
       <hr></hr>
-      <p id="paragraph">
+      <p class="paragraph">
         You can only keep <strong>5 apps</strong>. Choose the ones you
         definitely can't live without and drag and drop the rest to the trash
         can below. When deleting the apps,{" "}
@@ -241,11 +241,7 @@ const DragDelete = ({
         </div>
       </DragDropContext>
 
-      {showMessage && (
-        <div className="message" id="delete-message">
-          {showMessage}
-        </div>
-      )}
+      {showMessage && <div className="message">{showMessage}</div>}
       <div className="buttons-container">
         <button
           className={`back-next-button ${
@@ -257,7 +253,7 @@ const DragDelete = ({
         </button>
       </div>
       {showNextButtonMessage && (
-        <div className="next-message">{showNextButtonMessage}</div>
+        <div className="message">{showNextButtonMessage}</div>
       )}
     </>
   );

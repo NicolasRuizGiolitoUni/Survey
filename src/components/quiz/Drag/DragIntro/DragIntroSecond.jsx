@@ -1,5 +1,4 @@
 import React from "react";
-import "./DragIntroSecond.css";
 
 const DragIntroSecond = ({ next, back }) => {
   return (

@@ -1,26 +1,3 @@
-#install-title {
-  font-size: 22px;
-  margin-bottom: 0px;
-}
-
-/* adas*/
-
-#paragraph {
-  font-size: 18px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  max-width: 600px;
-}
-
-.back-next-button.disabled {
-  background-color: #ffffff;
-  color: #00000079;
-  cursor: not-allowed;
-}
-
-.spacing {
-  height: 40px;
-}
 .apps-container {
   background: #000;
   padding: 10px;
@@ -29,31 +6,20 @@
   height: 600px;
   align-self: center;
   width: 55%;
-  margin-top: 10px; /* Adjust if needed */
-  margin-bottom: 80px;
-}
-
-#apps-install.apps-container {
-  margin-bottom: 50px;
-}
-
-.app-item {
-  background: #fff;
-  padding: 10px;
+  margin-top: 10px;
   margin-bottom: 10px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
 }
 
 .app-name {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 15px;
-  white-space: nowrap; /* Prevent text from wrapping */
-  overflow: hidden; /* Hide text that overflows */
-  text-overflow: ellipsis; /* Display ellipses for overflowed text */
-  max-width: 150px; /* Set a max-width to ensure text is truncated */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  display: flex;
+  align-items: center;
 }
 
 .add-button {
@@ -104,11 +70,6 @@ input {
   box-sizing: border-box;
   overflow: auto;
   font-family: "roboto";
-}
-
-.app-name {
-  font-size: 18px;
-  align-items: center;
 }
 
 .message {

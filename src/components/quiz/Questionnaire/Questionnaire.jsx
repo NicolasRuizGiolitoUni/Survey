@@ -23,7 +23,7 @@ const Questionnaire = ({
           <hr></hr>
 
           {question.subquestion && (
-            <p className="subquestion">{question.subquestion}</p>
+            <p className="paragraph">{question.subquestion}</p>
           )}
 
           {question.type === "multiple" && (
