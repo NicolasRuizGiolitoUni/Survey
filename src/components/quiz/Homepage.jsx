@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Survey from "./Survey";
-import Intro from "./Intro/Intro";
+import Intro from "./Intro/InformedConstent";
 import DragMain from "./Drag/DragMain/DragMain";
 import { db } from "../../db/db";
 import { collection, doc, setDoc, getDoc } from "firebase/firestore/lite";

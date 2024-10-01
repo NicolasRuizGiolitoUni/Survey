@@ -1,11 +1,12 @@
 import React from "react";
+import "./InformedConsent.css";
 
 const Intro = ({ goToNextComponent }) => {
   return (
     <>
       <h2>Welcome to the Survey!</h2>
       <hr></hr>
-      <h3>
+      <h3 className="informed-consent">
         <strong>Consent Form</strong>
       </h3>
       <p className="paragraph">
@@ -62,10 +63,11 @@ const Intro = ({ goToNextComponent }) => {
         form, understand the information presented, and agree to participate in
         this survey.
       </p>
-
-      <button className="start-button" onClick={goToNextComponent}>
-        Start
-      </button>
+      <div className="buttons-container">
+        <button className="start-button" onClick={goToNextComponent}>
+          Start
+        </button>
+      </div>
     </>
   );
 };

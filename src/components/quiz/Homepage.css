@@ -2,35 +2,49 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
-  margin-bottom: 50px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 header {
-  max-width: 600px;
+  margin-top: 1rem;
+  max-width: 800px;
   width: 100%;
-  font-size: 20px;
+  padding-left: 1rem;
+  font-weight: black;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1rem;
   background: #f3f3f3;
   height: auto;
-  margin-top: 20px;
-  width: 600px;
-  padding: 40px 60px;
-  border-radius: 30px;
-  position: relative;
+  margin-top: 0.75rem;
+  width: 800px;
+  max-width: 100%;
+  padding: 3rem 5rem;
+  border-radius: 2rem;
 }
 
 .paragraph {
-  font-size: 18px;
-  margin-top: 20px;
-  margin-bottom: 70px;
-  max-width: 600px;
-  margin-bottom: 20px;
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 .card hr {
@@ -39,27 +53,36 @@ header {
   width: 100%;
 }
 
+.buttons-container {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.start-button {
+  margin: auto;
+  padding: 0.5rem 3rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  border: none;
+  background: #c2ff6d;
+}
+
 .back-next-button {
-  padding: 10px 50px;
-  font-size: 18px;
+  padding: 0.5rem 3rem;
+  font-size: 1rem;
   border-width: 0;
-  border-radius: 15px;
+  border-radius: 1rem;
   background: #c2ff6d;
   color: black;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.back-next-button.disabled {
-  background-color: #ffffff;
-  color: #00000079;
-  cursor: not-allowed;
-}
-
 .back {
-  padding: 10px 50px;
-  font-size: 18px;
-  border-radius: 15px;
+  padding: 0.5rem 3rem;
+  font-size: 1rem;
+  border-radius: 1rem;
   background: none;
   color: black;
   cursor: pointer;
@@ -68,17 +91,61 @@ header {
   border-color: rgba(0, 0, 0, 0.374);
 }
 
-.buttons-container {
-  margin-top: 50px;
-  display: flex;
-  justify-content: space-around;
+.back-next-button.disabled {
+  background-color: #ffffff;
+  color: #00000079;
+  cursor: not-allowed;
 }
 
-.start-button {
-  margin: auto;
-  padding: 10px 50px;
-  font-size: 18px;
-  border-radius: 15px;
-  border: none;
-  background: #c2ff6d;
+/* Styles for phones */
+@media (max-width: 425px) {
+  header {
+    margin-top: 0rem;
+  }
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  h3 {
+    font-size: 0.9rem;
+  }
+
+  .container .card {
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    padding: 1.5rem 2rem;
+    border-radius: 2rem;
+  }
+  .paragraph {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+  .buttons-container {
+    margin-top: 0.75rem;
+  }
+  .back,
+  .start-button,
+  .back-next-button {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.75rem;
+    border-radius: 0.75rem;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
+  .card {
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding: 2rem 4.5rem;
+    border-radius: 2rem;
+  }
+
+  .paragraph {
+    margin-bottom: 1rem;
+  }
 }

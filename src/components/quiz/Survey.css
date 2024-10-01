@@ -1,13 +1,13 @@
 .card ul li {
   background: white;
-  font-size: 16px;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
-  height: 70px;
-  padding-left: 15px;
+  padding: 1.5rem;
+  padding-left: 1rem;
   border: 0;
-  border-radius: 20px;
-  margin-bottom: 20px;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
   cursor: pointer;
 }
 
@@ -15,20 +15,6 @@
   font-size: 16px;
   margin-top: 50px;
   align-self: center;
-}
-
-.answer {
-  background: white;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  height: 70px;
-  padding-left: 15px;
-  border: 0;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
 }
 
 .answer.selected {
@@ -58,6 +44,17 @@
   color: grey;
 }
 
-.questionnaire {
-  align-items: baseline;
+/* Styles for phones */
+@media (max-width: 425px) {
+  .card ul li {
+    font-size: 0.75rem;
+    padding: 1rem;
+    padding-left: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
 }

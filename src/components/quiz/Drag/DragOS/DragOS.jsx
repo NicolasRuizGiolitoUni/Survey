@@ -31,9 +31,11 @@ const DragOS = ({ next, back, docId }) => {
 
   return (
     <>
-      <h2 className="title">Let's start customizing your new phone!</h2>
+      <h2>Let's start customizing your new phone!</h2>
       <hr></hr>
-      <h2 className="title os">What OS would you like to use?</h2>
+      <p className="paragraph">
+        <strong>What OS would you like to use?</strong>
+      </p>
       <ul>
         {osOptions.map((os, id) => (
           <li

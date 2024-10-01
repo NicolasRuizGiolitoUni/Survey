@@ -68,7 +68,7 @@ const Questionnaire = ({
         </>
       )}
 
-      <div className="buttons-container questionnaire">
+      <div className="buttons-container">
         <button
           onClick={handleBack}
           disabled={index === 0}

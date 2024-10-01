@@ -1,18 +1,14 @@
-#title-os {
-  margin-bottom: 20px;
-}
-
 .start-button:hover {
   background-color: #c2ff6d;
   color: rgb(0, 0, 0);
 }
 
 .os-answer {
-  margin: 5px 0;
+  margin: 0.25rem 0;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-  border: 1px solid #ccc; /* Add border for better visibility */
-  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
   text-align: center;
 }
 

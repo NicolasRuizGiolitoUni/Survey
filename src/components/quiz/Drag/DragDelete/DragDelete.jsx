@@ -216,9 +216,7 @@ const DragDelete = ({
                               value={deleteReason}
                               onChange={handleChangeReason}
                             ></textarea>
-                            {charCount < 150 && (
-                              <div className="char-count">{charCount}/150</div>
-                            )}
+
                             <button
                               className={`delete-button ${
                                 charCount < 150 ? "disabled" : ""

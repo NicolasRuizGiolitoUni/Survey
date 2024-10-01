@@ -109,7 +109,6 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
         onChange={handleChangeReason}
         id="reason"
       />
-      {charCount < 150 && <div className="char-count">{charCount}/150</div>}
 
       <button
         className={`add-button ${isAddButtonDisabled ? "disabled" : ""}`}

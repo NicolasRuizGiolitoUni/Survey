@@ -15,10 +15,11 @@ const DragIntro = ({ next }) => {
         . Think about your daily life, work, hobbies, and routines.{" "}
         <strong>What apps do you rely on the most, and why? </strong>
       </p>
-
-      <button className="start-button" onClick={next}>
-        <p>Next</p>
-      </button>
+      <div className="buttons-container">
+        <button className="start-button" onClick={next}>
+          <p>Next</p>
+        </button>
+      </div>
     </>
   );
 };
