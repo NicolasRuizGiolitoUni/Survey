@@ -1,5 +1,4 @@
 import React from "react";
-import "./Questionnaire.css";
 
 const Questionnaire = ({
   question,
@@ -14,7 +13,7 @@ const Questionnaire = ({
   totalQuestions,
 }) => {
   return (
-    <div className="card">
+    <>
       {question && (
         <>
           <h2>
@@ -90,7 +89,7 @@ const Questionnaire = ({
           <span className="material-symbols-outlined">arrow_forward</span>
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

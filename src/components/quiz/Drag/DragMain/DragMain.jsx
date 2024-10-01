@@ -96,7 +96,7 @@ const DragMain = ({
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="card">{components[index]}</div>
+      <>{components[index]}</>
     </DragDropContext>
   );
 };

@@ -4,6 +4,7 @@ import Intro from "./Intro/Intro";
 import DragMain from "./Drag/DragMain/DragMain";
 import { db } from "../../db/db";
 import { collection, doc, setDoc, getDoc } from "firebase/firestore/lite";
+import "./HomePage.css";
 
 const HomePage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,11 +49,11 @@ const HomePage = () => {
   const CurrentComponent = components[currentIndex];
 
   return (
-    <div className="app-container">
-      <div className="center-container">
-        <div className="header">
-          <h1>Not-Too-Dumb Phone Survey</h1>
-        </div>
+    <div className="container">
+      <header>
+        <h1>Not-Too-Dumb Phone Survey</h1>
+      </header>
+      <div className="card">
         {error ? (
           <div className="error-message">
             {error}

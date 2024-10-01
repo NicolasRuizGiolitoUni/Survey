@@ -2,7 +2,7 @@ import React from "react";
 
 const Intro = ({ goToNextComponent }) => {
   return (
-    <div className="card">
+    <>
       <h2>Welcome to the Survey!</h2>
       <hr></hr>
       <h3>
@@ -66,7 +66,7 @@ const Intro = ({ goToNextComponent }) => {
       <button className="start-button" onClick={goToNextComponent}>
         Start
       </button>
-    </div>
+    </>
   );
 };
 

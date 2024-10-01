@@ -1,26 +1,10 @@
-.title {
-  font-size: 22px;
-}
-
 #title-os {
   margin-bottom: 20px;
-}
-
-.os {
-  margin-top: 20px;
-}
-
-#question-os {
-  font-weight: 500;
 }
 
 .start-button:hover {
   background-color: #c2ff6d;
   color: rgb(0, 0, 0);
-}
-
-.spacing {
-  height: 40px;
 }
 
 .os-answer {
@@ -39,10 +23,4 @@
 .os-answer.selected {
   background-color: black;
   color: white;
-}
-
-.back-next-button:disabled {
-  background: white;
-  color: grey;
-  cursor: not-allowed;
 }

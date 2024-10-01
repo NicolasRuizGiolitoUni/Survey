@@ -7,88 +7,10 @@ body {
   font-family: "roboto";
 }
 
-.app-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 50px;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background: #f3f3f3;
-  height: auto;
-  margin-top: 20px;
-  width: 600px;
-  padding: 40px 60px;
-  border-radius: 30px;
-  position: relative;
-}
-
-.paragraph {
-  font-size: 18px;
-  margin-top: 20px;
-  margin-bottom: 70px;
-  max-width: 600px;
-  margin-bottom: 20px;
-}
-
-.card hr {
-  border-color: rgba(187, 187, 187, 0.224);
-  border-width: 0.1px;
-  width: 100%;
-}
-
-.back-next-button {
-  padding: 10px 50px;
-  font-size: 18px;
-  border-width: 0;
-  border-radius: 15px;
-  background: #c2ff6d;
-  color: black;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.back-next-button.disabled {
-  background-color: #ffffff;
-  color: #00000079;
-  cursor: not-allowed;
-}
-
-.back {
-  padding: 10px 50px;
-  font-size: 18px;
-  border-radius: 15px;
-  background: none;
-  color: black;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  border-width: 1px;
-  border-color: rgba(0, 0, 0, 0.374);
-}
-
-.buttons-container {
-  margin-top: 50px;
-  display: flex;
-  justify-content: space-around;
-}
-
 .thanks {
   margin-top: 50px;
   font-size: 50px;
   font-weight: bolder;
   align-self: center;
   align-items: center;
-}
-
-.start-button {
-  margin: auto;
-  padding: 10px 50px;
-  font-size: 18px;
-  border-radius: 15px;
-  border: none;
-  background: #c2ff6d;
 }
