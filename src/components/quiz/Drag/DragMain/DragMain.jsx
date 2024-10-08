@@ -28,40 +28,6 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent, docId }) => {
     }
   };
 
-  const handleDragEnd = (result) => {
-    if (!result.destination) return;
-
-    const { source, destination, draggableId } = result;
-
-    if (source.droppableId === destination.droppableId) return;
-
-    if (
-      source.droppableId === "appsContainer" &&
-      destination.droppableId === "trash"
-    ) {
-      const movedApp = apps.find((app) => app.id === draggableId);
-      setApps((prevApps) => prevApps.filter((app) => app.id !== draggableId));
-      setTrashApps((prevTrashApps) => [...prevTrashApps, movedApp]);
-    } else if (
-      source.droppableId === "trash" &&
-      destination.droppableId === "appsContainer"
-    ) {
-      const movedApp = trashApps.find((app) => app.id === draggableId);
-      setTrashApps((prevTrashApps) =>
-        prevTrashApps.filter((app) => app.id !== draggableId)
-      );
-      setApps((prevApps) => [...prevApps, movedApp]);
-    } else if (
-      source.droppableId === "appsContainer" &&
-      destination.droppableId === "appsContainer"
-    ) {
-      const reorderedApps = Array.from(apps);
-      const [movedApp] = reorderedApps.splice(source.index, 1);
-      reorderedApps.splice(destination.index, 0, movedApp);
-      setApps(reorderedApps);
-    }
-  };
-
   const components = [
     <DragIntro next={nextScreen} back={goToPreviousComponent} />,
     <DragIntroSecond next={nextScreen} back={prevScreen} />,
@@ -92,11 +58,7 @@ const DragMain = ({ goToNextComponent, goToPreviousComponent, docId }) => {
     />,
   ];
 
-  return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <>{components[index]}</>
-    </DragDropContext>
-  );
+  return <>{components[index]}</>;
 };
 
 export default DragMain;

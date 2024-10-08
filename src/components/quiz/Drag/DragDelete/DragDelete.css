@@ -13,18 +13,6 @@
   justify-content: center;
 }
 
-.app-item {
-  background: #fff;
-  padding: 0.25rem;
-  margin-bottom: 0.5rem;
-  border-radius: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  color: #000;
-  transition: height 0.3s ease;
-}
-
 .app-item.expanded {
   margin-top: 1rem;
   height: 12rem;

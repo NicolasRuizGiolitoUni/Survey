@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../../../../db/db"; // Adjust the path as necessary
 import "./DragInstall.css";
@@ -8,15 +7,14 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
   const [appName, setAppName] = useState("");
   const [appReason, setAppReason] = useState("");
   const [showMessage, setShowMessage] = useState("");
-  const [wordCount, setWordCount] = useState(0);
 
   // Update the condition to check for 50 words
-  const isAddButtonDisabled = !appName || wordCount < 50;
+  const isAddButtonDisabled = appReason.length === 0 || appName === "";
   const isNextButtonDisabled = apps.length < 8;
 
   const handleAddApp = async () => {
     if (isAddButtonDisabled) {
-      setShowMessage("Enter at least 50 words");
+      setShowMessage("Enter app name and reason");
       setTimeout(() => setShowMessage(""), 3000);
       return;
     }
@@ -30,6 +28,13 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
     const updatedApps = [...apps, newApp];
     setApps(updatedApps);
 
+    await saveAppsToFirestore(updatedApps);
+
+    setAppName("");
+    setAppReason("");
+  };
+
+  const saveAppsToFirestore = async (updatedApps) => {
     try {
       const docRef = doc(db, "surveyResponses", docId);
       // Save only name and reason, excluding id
@@ -41,14 +46,10 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       await updateDoc(docRef, {
         Selected_apps: appsToSave,
       });
-      console.log("App added to Firestore:", newApp);
+      console.log("Apps updated in Firestore:", appsToSave);
     } catch (error) {
       console.error("Error updating document:", error);
     }
-
-    setAppName("");
-    setAppReason("");
-    setWordCount(0); // Reset word count after adding
   };
 
   const handleNext = () => {
@@ -58,52 +59,36 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       return;
     }
 
-    // Proceed to the next step
-    console.log("Apps:", apps);
     next();
-  };
-
-  // Function to count words in the appReason
-  const countWords = (text) => {
-    return text
-      .trim()
-      .split(/\s+/)
-      .filter((word) => word.length > 0).length;
   };
 
   const handleChangeReason = (e) => {
     const newReason = e.target.value;
     setAppReason(newReason);
-    setWordCount(countWords(newReason)); // Set word count
   };
 
-  const handleOnDragEnd = async (result) => {
-    if (!result.destination) return; // Dropped outside the list
+  // Move app up in the list
+  const moveUp = async (index) => {
+    if (index === 0) return; // Already at the top
+    const updatedApps = [...apps];
+    [updatedApps[index - 1], updatedApps[index]] = [
+      updatedApps[index],
+      updatedApps[index - 1],
+    ];
+    setApps(updatedApps);
+    await saveAppsToFirestore(updatedApps); // Save new order to Firestore
+  };
 
-    const reorderedApps = Array.from(apps); // Clone the apps array
-    const [movedApp] = reorderedApps.splice(result.source.index, 1); // Remove the dragged app
-    reorderedApps.splice(result.destination.index, 0, movedApp); // Insert the dragged app in the new position
-
-    setApps(reorderedApps); // Update the local state with the new order
-
-    // Update Firestore with the new order immediately
-    try {
-      const docRef = doc(db, "surveyResponses", docId);
-
-      // Save only name and reason, excluding the id
-      const appsToSave = reorderedApps.map((app) => ({
-        name: app.name,
-        reason: app.reason,
-      }));
-
-      await updateDoc(docRef, {
-        Selected_apps: appsToSave,
-      });
-
-      console.log("Apps reordered in Firestore:", reorderedApps);
-    } catch (error) {
-      console.error("Error updating document:", error);
-    }
+  // Move app down in the list
+  const moveDown = async (index) => {
+    if (index === apps.length - 1) return; // Already at the bottom
+    const updatedApps = [...apps];
+    [updatedApps[index], updatedApps[index + 1]] = [
+      updatedApps[index + 1],
+      updatedApps[index],
+    ];
+    setApps(updatedApps);
+    await saveAppsToFirestore(updatedApps); // Save new order to Firestore
   };
 
   return (
@@ -114,8 +99,7 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       <hr />
       <p className="paragraph">
         Enter the names of at <strong>least 8 apps</strong> you can't live
-        without, <strong>along with the reasons you need them</strong>. Then, on
-        the phone below, <strong>sort them in order of importance</strong>.
+        without, <strong>along with the reasons you need them</strong>.
       </p>
 
       <input
@@ -139,37 +123,28 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
         Add
       </button>
 
-      {/* Wrap the drag and drop area inside the DragDropContext */}
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="appsContainer">
-          {(provided) => (
-            <div
-              id="apps-install"
-              className="apps-container"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
+      {/* Display the list of apps with up/down arrows */}
+      <div id="apps-install" className="apps-container">
+        {apps.map((app, index) => (
+          <div className="app-item" key={app.id}>
+            <span
+              onClick={() => moveUp(index)}
+              className="material-symbols-outlined"
             >
-              {apps.map((app, index) => (
-                <Draggable key={app.id} draggableId={app.id} index={index}>
-                  {(provided) => (
-                    <div
-                      className="app-item"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <div className="app-name">
-                        {index + 1}. {app.name}
-                      </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+              arrow_upward
+            </span>
+            <div className="app-name">
+              {index + 1}. {app.name}
             </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+            <span
+              onClick={() => moveDown(index)}
+              className="material-symbols-outlined"
+            >
+              arrow_downward
+            </span>
+          </div>
+        ))}
+      </div>
 
       <div className="buttons-container">
         <button className="back-next-button back" onClick={back}>
