@@ -1,17 +1,34 @@
-// db.js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore/lite";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCguBRdZz1xTpxBWsjBhiWbWtf2iCi7Wak",
-  authDomain: "survey-ded4f.firebaseapp.com",
-  projectId: "survey-ded4f",
-  storageBucket: "survey-ded4f.appspot.com",
-  messagingSenderId: "710452770305",
-  appId: "1:710452770305:web:4b36163626a184822bf200",
+// Define production and development configurations
+const prodConfig = {
+  apiKey: import.meta.env.VITE_PROD_API_KEY,
+  authDomain: import.meta.env.VITE_PROD_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROD_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_PROD_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_PROD_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_PROD_APP_ID,
 };
 
+const devConfig = {
+  apiKey: import.meta.env.VITE_DEV_API_KEY,
+  authDomain: import.meta.env.VITE_DEV_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_DEV_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_DEV_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_DEV_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_DEV_APP_ID,
+};
+
+// Select the correct configuration based on the environment mode
+const firebaseConfig =
+  import.meta.env.MODE === "production" ? prodConfig : devConfig;
+
+// Log the selected Firebase project ID to the console for verification
+console.log("Firebase Project ID:", firebaseConfig.projectId);
+
+// Initialize Firebase and Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { db }; // Named export
+export { db };

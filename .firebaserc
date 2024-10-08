@@ -2,9 +2,28 @@
   "projects": {
     "default": "survey-ded4f",
     "testing": "survey-ded4f",
-    "production": "surveyproduction-76600"
+    "production": "surveyproduction-76600",
+    "production ": "surveyproduction-76600"
   },
-  "targets": {},
+  "targets": {
+    "survey-ded4f": {
+      "hosting": {
+        "development": [
+          "survey-ded4f"
+        ],
+        "production": [
+          "surveyproduction-76600"
+        ]
+      }
+    },
+    "surveyproduction-76600": {
+      "hosting": {
+        "production": [
+          "surveyproduction-76600"
+        ]
+      }
+    }
+  },
   "etags": {},
   "dataconnectEmulatorConfig": {}
 }
