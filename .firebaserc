@@ -1,5 +1,10 @@
 {
   "projects": {
-    "default": "survey-ded4f"
-  }
+    "default": "survey-ded4f",
+    "testing": "survey-ded4f",
+    "production": "surveyproduction-76600"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }

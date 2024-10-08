@@ -12,6 +12,10 @@
   text-align: center;
 }
 
+.subtitle {
+  font-size: 1.25rem;
+}
+
 .os-answer:hover {
   background-color: #f0f0f0;
 }
@@ -19,4 +23,24 @@
 .os-answer.selected {
   background-color: black;
   color: white;
+}
+
+/* Styles for phones */
+@media (max-width: 425px) {
+  .card .subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 593px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
 }

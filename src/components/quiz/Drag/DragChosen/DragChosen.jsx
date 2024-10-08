@@ -1,65 +1,29 @@
 import React, { useState } from "react";
 import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore/lite";
+import { doc, updateDoc, getDoc } from "firebase/firestore/lite";
 import { db } from "../../../../db/db"; // Adjust the path as necessary
 import "./DragChosen.css";
 
-const DragChosen = ({ back, next, apps, setApps, docId }) => {
+const DragChosen = ({ apps, setApps, docId, next }) => {
   const [chosenApps, setChosenApps] = useState([]);
-  const [selectedApp, setSelectedApp] = useState(null);
   const [chooseReason, setChooseReason] = useState("");
-  const [charCount, setCharCount] = useState(0);
+  const [wordCount, setWordCount] = useState(0);
   const [showMessage, setShowMessage] = useState("");
-  const [appReasons, setAppReasons] = useState({}); // Track reasons for each app
+  const [isReasonSubmitted, setIsReasonSubmitted] = useState(false); // Tracks if reason is submitted
 
-  const handleChooseApp = async (appId) => {
-    if (charCount < 150) {
-      setShowMessage("Enter at least 150 characters");
-      setTimeout(() => setShowMessage(""), 3000);
-      return;
-    }
+  // Calculate word count by splitting the text by spaces and filtering out empty strings
+  const calculateWordCount = (text) => {
+    return text.trim().split(/\s+/).filter(Boolean).length;
+  };
 
-    const appToChoose = chosenApps.find(
-      (app) => app.id.toString() === appId.toString()
-    );
-    if (!appToChoose) {
-      console.error(
-        "App to choose not found. Available chosen apps:",
-        chosenApps
-      );
-      return;
-    }
-
-    setChosenApps((prevChosenApps) =>
-      prevChosenApps.filter((app) => app.id.toString() !== appId.toString())
-    );
-
-    // Save the reason for the chosen app
-    setAppReasons((prevReasons) => ({
-      ...prevReasons,
-      [appId]: chooseReason,
-    }));
-
-    try {
-      const docRef = doc(db, "surveyResponses", docId);
-      await updateDoc(docRef, {
-        Chosen_apps: arrayUnion({ ...appToChoose, reason: chooseReason }),
-      });
-      console.log("App chosen and saved to Firestore:", appToChoose);
-    } catch (error) {
-      console.error("Error updating document:", error);
-    }
-
-    setSelectedApp(null);
-    setChooseReason("");
-    setCharCount(0);
+  const handleDisabledNextClick = () => {
+    setShowMessage("Please submit the reason for choosing your apps.");
+    setTimeout(() => setShowMessage(""), 3000);
   };
 
   const handleDragEnd = (result) => {
     const { source, destination } = result;
-
     if (!destination) return;
-
     if (
       source.droppableId === "appsContainer" &&
       destination.droppableId === "chosenContainer"
@@ -71,7 +35,6 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
         )
       );
       setChosenApps((prevChosenApps) => [...prevChosenApps, appToChoose]);
-      setSelectedApp(appToChoose);
     } else if (
       source.droppableId === "chosenContainer" &&
       destination.droppableId === "appsContainer"
@@ -83,53 +46,76 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
         )
       );
       setApps((prevApps) => [...prevApps, appToRestore]);
-      setSelectedApp(null);
-      // Remove the reason for the restored app
-      setAppReasons((prevReasons) => {
-        const { [appToRestore.id]: _, ...rest } = prevReasons;
-        return rest;
-      });
     }
   };
 
   const handleChangeReason = (e) => {
     const newReason = e.target.value;
     setChooseReason(newReason);
-    setCharCount(newReason.length);
+    setWordCount(calculateWordCount(newReason)); // Calculate word count dynamically
   };
 
-  const handleNext = () => {
-    // Check if all chosen apps have reasons
-    const allAppsSaved = chosenApps.every((app) => appReasons[app.id]);
-    if (!allAppsSaved) {
-      setShowMessage("Save all the apps before continuing");
+  const handleSubmit = async () => {
+    if (wordCount < 50) {
+      setShowMessage("Please enter at least 50 words.");
       setTimeout(() => setShowMessage(""), 3000);
       return;
     }
 
-    // Proceed to the next step
-    console.log(
-      "Chosen apps with reasons:",
-      chosenApps.map((app) => ({ name: app.name, reason: appReasons[app.id] }))
-    );
-    next();
-  };
+    try {
+      const docRef = doc(db, "surveyResponses", docId);
 
-  const handleDisabledNextClick = () => {
-    setShowMessage(
-      "You must remove all apps from the app list before continuing."
-    );
-    setTimeout(() => setShowMessage(""), 3000);
+      // Create an object with all the chosen app names and the reason
+      const finalChosenApps = {
+        apps: apps.map((app) => app.name), // Array of app names
+        reason: chooseReason, // The same reason for all apps
+      };
+
+      // Save the structure in Firestore
+      await updateDoc(docRef, {
+        finalChosenApps: finalChosenApps,
+      });
+
+      setIsReasonSubmitted(true); // Mark as submitted
+
+      // Log the updated document
+      const updatedDoc = await getDoc(docRef);
+      console.log("Updated document:", updatedDoc.data());
+
+      setTimeout(() => setShowMessage(""), 3000);
+      next();
+    } catch (error) {
+      console.error("Error updating document:", error);
+      setShowMessage("Failed to submit. Try again.");
+      setTimeout(() => setShowMessage(""), 3000);
+    }
   };
 
   return (
     <>
-      <h2 className="title">Time to save your most important apps!</h2>
+      <h2 className="title">Your new phone is almost ready to use!</h2>
       <hr />
       <p className="paragraph">
-        Now drag and drop your the 5 remaining apps in the box below and enter{" "}
-        <strong>why they are the most important ones to you. </strong>
+        Tell us why these are the most important apps for you.{" "}
+        <strong>
+          Why do you think you can't live without them? What value do they offer
+          you?{" "}
+        </strong>
       </p>
+
+      <textarea
+        placeholder="Enter at least 50 words."
+        id="reason"
+        value={chooseReason}
+        onChange={handleChangeReason}
+      ></textarea>
+
+      <button
+        className={`add-button ${wordCount < 50 ? "disabled" : ""}`}
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
 
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="appsContainer">
@@ -153,65 +139,9 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <div className="app-name">{app.name}</div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-
-        <Droppable droppableId="chosenContainer">
-          {(provided) => (
-            <div
-              className="chosen-apps-container"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              <h3>Drag to Save</h3>
-              {chosenApps.map((app, index) => (
-                <Draggable
-                  key={app.id.toString()}
-                  draggableId={app.id.toString()}
-                  index={index}
-                >
-                  {(provided) => (
-                    <div
-                      className={`app-item ${
-                        selectedApp &&
-                        selectedApp.id.toString() === app.id.toString()
-                          ? "expanded"
-                          : ""
-                      }`}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <div className="app-name" id="app-name-trash">
-                        {app.name}
+                      <div className="app-name">
+                        {index + 1}. {app.name}
                       </div>
-
-                      {selectedApp &&
-                        selectedApp.id.toString() === app.id.toString() && (
-                          <>
-                            <textarea
-                              className="delete-reason"
-                              placeholder="Enter reason for choosing this app"
-                              value={chooseReason}
-                              onChange={handleChangeReason}
-                            ></textarea>
-                            <button
-                              className={`delete-button ${
-                                charCount < 150 ? "disabled" : ""
-                              }`}
-                              onClick={() => handleChooseApp(app.id)}
-                            >
-                              Save
-                            </button>
-                          </>
-                        )}
                     </div>
                   )}
                 </Draggable>
@@ -221,16 +151,6 @@ const DragChosen = ({ back, next, apps, setApps, docId }) => {
           )}
         </Droppable>
       </DragDropContext>
-
-      <div className="buttons-container">
-        <button
-          className="back-next-button"
-          onClick={apps.length > 0 ? handleDisabledNextClick : handleNext}
-          disabled={apps.length > 0} // Disable if there are apps in the appsContainer
-        >
-          <p>Next</p>
-        </button>
-      </div>
 
       {showMessage && <div className="message">{showMessage}</div>}
     </>

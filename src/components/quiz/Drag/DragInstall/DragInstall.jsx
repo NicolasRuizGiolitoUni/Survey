@@ -8,14 +8,15 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
   const [appName, setAppName] = useState("");
   const [appReason, setAppReason] = useState("");
   const [showMessage, setShowMessage] = useState("");
-  const [charCount, setCharCount] = useState(0);
+  const [wordCount, setWordCount] = useState(0);
 
-  const isAddButtonDisabled = !appName || charCount < 150;
+  // Update the condition to check for 50 words
+  const isAddButtonDisabled = !appName || wordCount < 50;
   const isNextButtonDisabled = apps.length < 8;
 
   const handleAddApp = async () => {
     if (isAddButtonDisabled) {
-      setShowMessage("Enter at least 150 characters");
+      setShowMessage("Enter at least 50 words");
       setTimeout(() => setShowMessage(""), 3000);
       return;
     }
@@ -31,8 +32,14 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
 
     try {
       const docRef = doc(db, "surveyResponses", docId);
+      // Save only name and reason, excluding id
+      const appsToSave = updatedApps.map((app) => ({
+        name: app.name,
+        reason: app.reason,
+      }));
+
       await updateDoc(docRef, {
-        Selected_apps: updatedApps,
+        Selected_apps: appsToSave,
       });
       console.log("App added to Firestore:", newApp);
     } catch (error) {
@@ -41,7 +48,7 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
 
     setAppName("");
     setAppReason("");
-    setCharCount(0);
+    setWordCount(0); // Reset word count after adding
   };
 
   const handleNext = () => {
@@ -56,27 +63,43 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
     next();
   };
 
+  // Function to count words in the appReason
+  const countWords = (text) => {
+    return text
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length;
+  };
+
   const handleChangeReason = (e) => {
     const newReason = e.target.value;
     setAppReason(newReason);
-    setCharCount(newReason.length);
+    setWordCount(countWords(newReason)); // Set word count
   };
 
   const handleOnDragEnd = async (result) => {
     if (!result.destination) return; // Dropped outside the list
 
-    const reorderedApps = Array.from(apps);
-    const [movedApp] = reorderedApps.splice(result.source.index, 1);
-    reorderedApps.splice(result.destination.index, 0, movedApp);
+    const reorderedApps = Array.from(apps); // Clone the apps array
+    const [movedApp] = reorderedApps.splice(result.source.index, 1); // Remove the dragged app
+    reorderedApps.splice(result.destination.index, 0, movedApp); // Insert the dragged app in the new position
 
-    setApps(reorderedApps);
+    setApps(reorderedApps); // Update the local state with the new order
 
-    // Update Firestore with the new order
+    // Update Firestore with the new order immediately
     try {
       const docRef = doc(db, "surveyResponses", docId);
+
+      // Save only name and reason, excluding the id
+      const appsToSave = reorderedApps.map((app) => ({
+        name: app.name,
+        reason: app.reason,
+      }));
+
       await updateDoc(docRef, {
-        Selected_apps: reorderedApps,
+        Selected_apps: appsToSave,
       });
+
       console.log("Apps reordered in Firestore:", reorderedApps);
     } catch (error) {
       console.error("Error updating document:", error);
@@ -89,22 +112,21 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
         Now it's time to install some apps!
       </h2>
       <hr />
-      <p class="paragraph">
+      <p className="paragraph">
         Enter the names of at <strong>least 8 apps</strong> you can't live
         without, <strong>along with the reasons you need them</strong>. Then, on
-        the phone below, drag and drop them{" "}
-        <strong> in order of importance </strong> from top to bottom.
+        the phone below, <strong>sort them in order of importance</strong>.
       </p>
 
       <input
         type="text"
-        placeholder="Enter app name"
+        placeholder="App name"
         value={appName}
         onChange={(e) => setAppName(e.target.value)}
       />
       <textarea
         type="text"
-        placeholder="Why is this app indispensable for you? Enter min. 150 characters"
+        placeholder="Why is this app indispensable for you? Enter at least 50 words"
         value={appReason}
         onChange={handleChangeReason}
         id="reason"
@@ -136,7 +158,9 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <div className="app-name">{app.name}</div>
+                      <div className="app-name">
+                        {index + 1}. {app.name}
+                      </div>
                     </div>
                   )}
                 </Draggable>

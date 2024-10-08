@@ -9,9 +9,19 @@ body {
 }
 
 .thanks {
-  margin-top: 50px;
-  font-size: 50px;
+  font-size: 2rem;
   font-weight: bolder;
   align-self: center;
   align-items: center;
+}
+
+/* Styles for phones */
+@media (max-width: 425px) {
+  .thanks {
+    font-size: 1.5rem;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
 }

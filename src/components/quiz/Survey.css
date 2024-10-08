@@ -3,17 +3,16 @@
   font-size: 0.9rem;
   display: flex;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1.25rem;
   padding-left: 1rem;
   border: 0;
   border-radius: 1rem;
-  margin-bottom: 1rem;
   cursor: pointer;
+  margin-bottom: 0.5rem;
 }
 
 .progress-bar {
-  font-size: 16px;
-  margin-top: 50px;
+  font-size: 0.75rem;
   align-self: center;
 }
 
@@ -24,23 +23,24 @@
 
 .open-answer {
   background: white;
-  font-size: 16px;
-  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-family: "Libre Franklin", sans-serif;
   display: flex;
   align-items: flex-start;
-  height: 70px;
+  height: 4rem;
   width: 100%;
-  padding: 15px;
+  padding: 1rem;
   border: 0;
-  border-radius: 20px;
-  margin-bottom: 20px;
+  border-radius: 1.25rem;
+
+  margin-bottom: 1.25rem;
   resize: none;
   box-sizing: border-box;
 }
 
 .open-answer::placeholder {
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
+  font-family: "Libre Franklin", sans-serif;
+  font-size: 1rem;
   color: grey;
 }
 
@@ -48,10 +48,19 @@
 @media (max-width: 425px) {
   .card ul li {
     font-size: 0.75rem;
-    padding: 1rem;
+    padding: 0.75rem;
     padding-left: 1rem;
     border-radius: 0.75rem;
-    margin-bottom: 0.75rem;
+  }
+  .card .progress-bar {
+    font-size: 0.6rem;
+  }
+  .open-answer {
+    font-size: 0.75rem;
+    padding: 0.75rem;
+  }
+  .open-answer::placeholder {
+    font-size: 0.75rem;
   }
 }
 

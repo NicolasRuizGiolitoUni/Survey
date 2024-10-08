@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Survey.css";
-import { data } from "../../assets/data/data";
+import { data } from "../../assets/data/data2";
 import Questionnaire from "./Questionnaire/Questionnaire";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore/lite";
 import { db } from "../../db/db";
@@ -147,33 +147,31 @@ const Survey = ({ goToNextComponent, goToPreviousComponent, docId }) => {
   }, [completed, goToNextComponent]);
 
   return (
-    <div className="app-container" id="survey-container">
-      <div className="center-container">
-        {completed ? (
-          <div className="thanks">Thank you!</div>
-        ) : (
-          <Questionnaire
-            question={question}
-            index={index}
-            selectedAnswers={selectedAnswers}
-            openAnswer={openAnswer}
-            handleAnswerSelection={handleAnswerSelection}
-            handleOpenAnswer={handleOpenAnswer}
-            handleBack={() => {
-              handleBack();
-            }}
-            handleNext={() => {
-              handleNext();
-              if (index >= data.length - 1) {
-                goToNextComponent();
-              }
-            }}
-            isNextButtonEnabled={isNextButtonEnabled}
-            totalQuestions={data.length}
-          />
-        )}
-      </div>
-    </div>
+    <>
+      {completed ? (
+        <div className="thanks">Thank you!</div>
+      ) : (
+        <Questionnaire
+          question={question}
+          index={index}
+          selectedAnswers={selectedAnswers}
+          openAnswer={openAnswer}
+          handleAnswerSelection={handleAnswerSelection}
+          handleOpenAnswer={handleOpenAnswer}
+          handleBack={() => {
+            handleBack();
+          }}
+          handleNext={() => {
+            handleNext();
+            if (index >= data.length - 1) {
+              goToNextComponent();
+            }
+          }}
+          isNextButtonEnabled={isNextButtonEnabled}
+          totalQuestions={data.length}
+        />
+      )}
+    </>
   );
 };
 

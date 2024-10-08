@@ -8,11 +8,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import DragOS from "../DragOS/DragOS";
 import DragChosen from "../DragChosen/DragChosen";
 
-const DragMain = ({
-  goToNextComponent,
-  goToPreviousComponent,
-  docId, // Use docId here
-}) => {
+const DragMain = ({ goToNextComponent, goToPreviousComponent, docId }) => {
   const [index, setIndex] = useState(0);
   const [apps, setApps] = useState([]);
   const [trashApps, setTrashApps] = useState([]);

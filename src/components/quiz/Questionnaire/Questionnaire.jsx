@@ -72,13 +72,13 @@ const Questionnaire = ({
         <button
           onClick={handleBack}
           disabled={index === 0}
-          className={`back-next-button ${index === 0 ? "disabled" : "enabled"}`}
+          className={`back-next-button back ${
+            index === 0 ? "disabled" : "enabled"
+          }`}
         >
-          <span className="material-symbols-outlined">arrow_back</span>
+          <p>Back</p>
         </button>
-        <p>
-          Question {index + 1} of {totalQuestions}
-        </p>
+
         <button
           onClick={handleNext}
           disabled={!isNextButtonEnabled()}
@@ -86,7 +86,7 @@ const Questionnaire = ({
             !isNextButtonEnabled() ? "disabled" : "enabled"
           }`}
         >
-          <span className="material-symbols-outlined">arrow_forward</span>
+          <p>Next</p>
         </button>
       </div>
     </>

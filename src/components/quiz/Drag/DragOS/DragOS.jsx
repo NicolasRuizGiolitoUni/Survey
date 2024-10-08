@@ -33,7 +33,7 @@ const DragOS = ({ next, back, docId }) => {
     <>
       <h2>Let's start customizing your new phone!</h2>
       <hr></hr>
-      <p className="paragraph">
+      <p className="subtitle">
         <strong>What OS would you like to use?</strong>
       </p>
       <ul>

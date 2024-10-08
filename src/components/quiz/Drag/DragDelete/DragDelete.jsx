@@ -20,42 +20,50 @@ const DragDelete = ({
   const [isTrashOccupied, setIsTrashOccupied] = useState(false);
   const [showMessage, setShowMessage] = useState("");
   const [showNextButtonMessage, setShowNextButtonMessage] = useState(""); // State for Next button message
-  const [charCount, setCharCount] = useState(0); // State for character count
+  const [wordCount, setWordCount] = useState(0); // State for word count
   const [appCount, setAppCount] = useState(apps.length); // Track the number of apps
 
   const handleDeleteApp = async (appId) => {
-    // Check if there are 5 or fewer apps left in the apps container
-
-    if (charCount < 150) {
-      setShowMessage("Enter at least 150 characters"); // Show message for insufficient characters
+    // Check if the delete reason has at least 50 words
+    if (wordCount < 50) {
+      setShowMessage("Enter at least 50 words");
       setTimeout(() => {
-        setShowMessage(""); // Hide the message after 3 seconds
+        setShowMessage("");
       }, 3000);
-      return; // Exit the function early
+      return;
     }
 
+    // Find the app to delete from trashApps
     const appToDelete = trashApps.find((app) => app.id === appId);
+
+    // Remove the app from trashApps and add it to the deletedApps state
     setTrashApps((prevTrashApps) =>
       prevTrashApps.filter((app) => app.id !== appId)
     );
     setDeletedApps((prevDeletedApps) => [...prevDeletedApps, appToDelete]);
 
-    // Update Firestore document with the deleted app
+    // Prepare the app data to be saved (excluding the `id`)
+    const appDataToSave = {
+      name: appToDelete.name,
+      reason: deleteReason,
+    };
+
+    // Update Firestore with only the current deleted app data
     try {
       const docRef = doc(db, "surveyResponses", docId);
       await updateDoc(docRef, {
-        Deleted_apps: arrayUnion({ ...appToDelete, reason: deleteReason }),
+        Deleted_apps: arrayUnion(appDataToSave), // Only add the current app data
       });
-      console.log("Deleted app added to Firestore:", appToDelete);
+      console.log("Deleted app added to Firestore:", appDataToSave);
     } catch (error) {
       console.error("Error updating document:", error);
     }
 
-    // Reset state
+    // Reset the state
     setSelectedApp(null);
     setDeleteReason("");
     setIsTrashOccupied(false);
-    setCharCount(0); // Reset character count
+    setWordCount(0); // Reset word count
   };
 
   const handleDragEnd = (result) => {
@@ -76,9 +84,9 @@ const DragDelete = ({
         return; // Exit the function early
       }
 
-      // Prevent deletion if there are already 5 or fewer apps left
-      if (appCount <= 5) {
-        setShowMessage("You already have 5 apps. Press Next.");
+      // Prevent deletion if there's only 1 app left
+      if (appCount === 1) {
+        setShowMessage("At least 1 app must remain.");
         setTimeout(() => setShowMessage(""), 3000); // Hide message after 3 seconds
         return; // Exit function to stop dragging to trash
       }
@@ -122,20 +130,30 @@ const DragDelete = ({
     }
   };
 
+  // Function to count words in the deleteReason
+  const countWords = (text) => {
+    return text
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length;
+  };
+
   const handleChangeReason = (e) => {
     const newReason = e.target.value;
     setDeleteReason(newReason);
-    setCharCount(newReason.length); // Update character count
+    setWordCount(countWords(newReason)); // Update word count
   };
 
   const handleClickNext = () => {
+    // Enforce that there must be at least 5 apps to proceed to the next screen
     if (appCount > 5) {
-      setShowNextButtonMessage("Delete more apps until 5 are left!"); // Show message for too many apps
+      setShowNextButtonMessage("Your storage is still full! Delete more apps.");
       setTimeout(() => {
         setShowNextButtonMessage(""); // Hide the message after 3 seconds
       }, 3000);
       return; // Exit the function early
     }
+
     next();
   };
 
@@ -145,13 +163,10 @@ const DragDelete = ({
     <>
       <h2 className="title">Oops! Your storage is already full! {":("}</h2>
       <hr></hr>
-      <p class="paragraph">
-        You can only keep <strong>5 apps</strong>. Choose the ones you
-        definitely can't live without and drag and drop the rest to the trash
-        can below. When deleting the apps,{" "}
-        <strong>
-          Why are you deleting this app? Enter at least 150 characters.
-        </strong>
+      <p className="paragraph">
+        You need to delete apps until at least <strong>5 </strong>remain.
+        Consider which apps you truly need and drag the rest to the trash can
+        below. For each app you delete, please provide a reason.{" "}
       </p>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="appsContainer">
@@ -171,7 +186,9 @@ const DragDelete = ({
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <div className="app-name">{app.name}</div>
+                      <div className="app-name">
+                        {index + 1}. {app.name}
+                      </div>
                     </div>
                   )}
                 </Draggable>
@@ -212,14 +229,14 @@ const DragDelete = ({
                           <>
                             <textarea
                               className="delete-reason"
-                              placeholder="Enter reason for deleting this app"
+                              placeholder="Why are you deleting this app? Enter at least 50 words"
                               value={deleteReason}
                               onChange={handleChangeReason}
                             ></textarea>
 
                             <button
                               className={`delete-button ${
-                                charCount < 150 ? "disabled" : ""
+                                wordCount < 50 ? "disabled" : ""
                               }`}
                               onClick={() => handleDeleteApp(app.id)}
                             >

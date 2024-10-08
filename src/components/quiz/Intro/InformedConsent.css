@@ -1,5 +1,54 @@
 .informed-consent {
-  margin-top: 1.5rem;
+  margin-top: 0rem;
   align-self: center;
   margin-bottom: 1rem;
+}
+
+.consent-paragraph {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.consent-title {
+  font-weight: bold;
+}
+
+#consent-list {
+  display: flex;
+  flex-direction: column;
+}
+
+#consent-list-item {
+  background-color: transparent;
+  font-size: 1rem;
+
+  padding: 0.5rem;
+}
+
+/* Styles for phones */
+@media (max-width: 425px) {
+  .consent-title {
+    font-size: 0.85rem;
+  }
+  #consent-list-item {
+    font-size: 0.85rem;
+  }
+
+  #consent-list {
+    margin-bottom: 0rem;
+  }
+}
+
+@media (max-width: 593px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
 }
