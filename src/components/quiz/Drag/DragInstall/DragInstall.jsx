@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore/lite";
-import { db } from "../../../../db/db"; // Adjust the path as necessary
+import { db } from "../../../../db/db";
 import "./DragInstall.css";
 
 const DragInstall = ({ next, back, apps, setApps, docId }) => {
   const [appName, setAppName] = useState("");
   const [appReason, setAppReason] = useState("");
   const [showMessage, setShowMessage] = useState("");
+  const [highlightedAppId, setHighlightedAppId] = useState(null);
 
-  // Update the condition to check for 50 words
   const isAddButtonDisabled = appReason.length === 0 || appName === "";
   const isNextButtonDisabled = apps.length < 8;
 
@@ -71,11 +71,18 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
   const moveUp = async (index) => {
     if (index === 0) return; // Already at the top
     const updatedApps = [...apps];
-    [updatedApps[index - 1], updatedApps[index]] = [
-      updatedApps[index],
-      updatedApps[index - 1],
-    ];
+
+    // Swap apps
+    const temp = updatedApps[index - 1];
+    updatedApps[index - 1] = updatedApps[index];
+    updatedApps[index] = temp;
+
     setApps(updatedApps);
+
+    // Highlight the app that moved up (updatedApps[index - 1] is the app that moved up)
+    setHighlightedAppId(updatedApps[index - 1].id);
+    setTimeout(() => setHighlightedAppId(null), 1000);
+
     await saveAppsToFirestore(updatedApps); // Save new order to Firestore
   };
 
@@ -83,11 +90,18 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
   const moveDown = async (index) => {
     if (index === apps.length - 1) return; // Already at the bottom
     const updatedApps = [...apps];
-    [updatedApps[index], updatedApps[index + 1]] = [
-      updatedApps[index + 1],
-      updatedApps[index],
-    ];
+
+    // Swap apps
+    const temp = updatedApps[index + 1];
+    updatedApps[index + 1] = updatedApps[index];
+    updatedApps[index] = temp;
+
     setApps(updatedApps);
+
+    // Highlight the app that moved down (updatedApps[index + 1] is the app that moved down)
+    setHighlightedAppId(updatedApps[index + 1].id);
+    setTimeout(() => setHighlightedAppId(null), 1000);
+
     await saveAppsToFirestore(updatedApps); // Save new order to Firestore
   };
 
@@ -99,7 +113,8 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       <hr />
       <p className="paragraph">
         Enter the names of at <strong>least 8 apps</strong> you can't live
-        without, <strong>along with the reasons you need them</strong>.
+        without, <strong>along with the reasons you need them</strong>. Then,
+        use the arrows to sort them in order of importance.
       </p>
 
       <input
@@ -126,7 +141,12 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       {/* Display the list of apps with up/down arrows */}
       <div id="apps-install" className="apps-container">
         {apps.map((app, index) => (
-          <div className="app-item" key={app.id}>
+          <div
+            className={`app-item ${
+              highlightedAppId === app.id ? "highlighted" : ""
+            }`}
+            key={app.id}
+          >
             <span
               onClick={() => moveUp(index)}
               className="material-symbols-outlined"

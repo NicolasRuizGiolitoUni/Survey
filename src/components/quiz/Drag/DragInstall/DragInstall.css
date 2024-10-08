@@ -11,8 +11,7 @@
 }
 
 .app-item {
-  background: #fff;
-
+  background-color: #fff;
   padding: 0.75rem;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
@@ -21,7 +20,11 @@
   justify-content: space-between;
   align-items: end;
   color: #000;
-  transition: height 0.3s ease;
+  transition: height 0.3s ease, background-color 0.3s ease;
+}
+
+.app-item.highlighted {
+  background-color: #c2ff6d;
 }
 
 .app-name {
