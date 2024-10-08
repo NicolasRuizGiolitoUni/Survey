@@ -1,0 +1,94 @@
+/* Modal container styling */
+.modal {
+  background-color: white;
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  position: relative;
+}
+
+/* Modal overlay styling (background dimming) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Heading in the modal */
+.modal h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Modal text */
+.modal p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Modal buttons container */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Confirm Delete button */
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+/* Cancel button */
+.cancel-button {
+  background-color: #7f8c8d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #707b7c;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .modal {
+    max-width: 90%;
+  }
+
+  .delete-button,
+  .cancel-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+  }
+}
