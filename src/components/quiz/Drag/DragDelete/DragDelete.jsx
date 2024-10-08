@@ -1,16 +1,58 @@
 import React, { useState } from "react";
-import "./DragDelete.css"; // Adjust the path as necessary
+import "./DragDelete.css";
 import DragModal from "../DragModal/DragModal";
+import { doc, updateDoc } from "firebase/firestore/lite";
+import { db } from "../../../../db/db";
 
-const DragDelete = ({ next, apps }) => {
+const DragDelete = ({
+  next,
+  apps,
+  setApps,
+  trashApps,
+  setTrashApps,
+  docId,
+}) => {
   const [showNextButtonMessage, setShowNextButtonMessage] = useState(""); // State for Next button message
   const appCount = apps.length; // Track the number of apps
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedAppName, setSelectedAppName] = useState(null);
 
   const openModal = (appName) => {
-    setSelectedAppName(appName);
-    setModalIsOpen(true);
+    if (apps.length === 1) {
+      setShowNextButtonMessage("You must have at least 1 app.");
+      setTimeout(() => {
+        setShowNextButtonMessage(""); // Hide the message after 3 seconds
+      }, 3000);
+    } else {
+      setSelectedAppName(appName);
+      setModalIsOpen(true);
+    }
+  };
+
+  const handleDelete = async (reason) => {
+    // Remove the selected app from the apps array
+    const updatedApps = apps.filter((app) => app.name !== selectedAppName);
+    setApps(updatedApps);
+
+    // Add the deleted app and reason to the trashApps array
+    const updatedTrashApps = [...trashApps, { name: selectedAppName, reason }];
+    setTrashApps(updatedTrashApps);
+
+    // Save the deleted apps and reasons to Firestore
+    await saveDeletedAppsToFirestore(updatedTrashApps);
+
+    // Close the modal
+    setModalIsOpen(false);
+  };
+
+  const saveDeletedAppsToFirestore = async (deletedApps) => {
+    try {
+      const docRef = doc(db, "surveyResponses", docId);
+      await updateDoc(docRef, { Deleted_apps: deletedApps });
+      console.log("Deleted apps saved to Firestore:", deletedApps);
+    } catch (error) {
+      console.error("Error updating deleted apps:", error);
+    }
   };
 
   const handleClickNext = () => {
@@ -33,7 +75,8 @@ const DragDelete = ({ next, apps }) => {
       <h2 className="title">Oops! Your storage is already full! {":("}</h2>
       <hr />
       <p className="paragraph">
-        You need to delete apps until at least <strong>5 </strong>remain.
+        Press on the delete icon until <strong>5 apps </strong> remain. What
+        apps are truly important to you?
       </p>
 
       <div id="apps-delete" className="apps-container">
@@ -45,7 +88,7 @@ const DragDelete = ({ next, apps }) => {
 
             <span
               onClick={() => openModal(app.name)}
-              className="material-symbols-outlined"
+              className="material-symbols-outlined trash"
             >
               delete
             </span>
@@ -75,6 +118,7 @@ const DragDelete = ({ next, apps }) => {
           setModalIsOpen={setModalIsOpen}
           onRequestClose={() => setModalIsOpen(false)}
           appName={selectedAppName}
+          onDelete={handleDelete} // Pass the delete handler to the modal
         />
       )}
     </>

@@ -4,7 +4,7 @@ import DragIntro from "../DragIntro/DragIntro";
 import DragInstall from "../DragInstall/DragInstall";
 import DragIntroSecond from "../DragIntro/DragIntroSecond";
 import DragDelete from "../DragDelete/DragDelete";
-import { DragDropContext } from "react-beautiful-dnd";
+
 import DragOS from "../DragOS/DragOS";
 import DragChosen from "../DragChosen/DragChosen";
 import DragQuestion from "../DragQuestion/DragQuestion";

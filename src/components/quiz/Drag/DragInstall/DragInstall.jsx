@@ -19,6 +19,16 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       return;
     }
 
+    // Check if the app already exists in the apps list
+    const appExists = apps.some(
+      (app) => app.name.toLowerCase() === appName.toLowerCase()
+    );
+    if (appExists) {
+      setShowMessage("App already exists");
+      setTimeout(() => setShowMessage(""), 3000);
+      return;
+    }
+
     const newApp = {
       id: `app-${Date.now()}`,
       name: appName,

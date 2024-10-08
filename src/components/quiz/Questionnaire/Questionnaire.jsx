@@ -69,16 +69,14 @@ const Questionnaire = ({
       )}
 
       <div className="buttons-container">
-        <button
-          onClick={handleBack}
-          disabled={index === 0}
-          className={`back-next-button back ${
-            index === 0 ? "disabled" : "enabled"
-          }`}
-        >
-          <p>Back</p>
-        </button>
+        {/* Conditionally render the "Back" button */}
+        {index > 0 && (
+          <button onClick={handleBack} className="back-next-button back">
+            <p>Back</p>
+          </button>
+        )}
 
+        {/* Always render the "Next" button */}
         <button
           onClick={handleNext}
           disabled={!isNextButtonEnabled()}

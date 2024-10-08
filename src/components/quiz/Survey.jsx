@@ -55,7 +55,7 @@ const Survey = ({ goToNextComponent, goToPreviousComponent, docId }) => {
   const updateFirestoreResponses = async (updatedResponses) => {
     const docRef = doc(db, "surveyResponses", docId);
     try {
-      await updateDoc(docRef, { responses: updatedResponses });
+      await updateDoc(docRef, { Questionnaire: updatedResponses });
       console.log("Responses updated in Firestore");
     } catch (error) {
       console.error("Error updating responses in Firestore:", error);

@@ -122,6 +122,9 @@ input {
   gap: 1rem;
   align-self: center;
 }
+.material-symbols-outlined {
+  cursor: pointer;
+}
 
 /* Styles for phones */
 @media (max-width: 425px) {
@@ -151,11 +154,13 @@ input {
 
 /* Medium devices (tablets) */
 @media (max-width: 768px) {
-  .app-name {
-    font-size: 0.75rem;
-    margin-bottom: 0.75rem;
+  .app-item {
+    padding: 0.5rem;
   }
   #reason {
     width: 85%;
+  }
+  .apps-container {
+    width: 70%;
   }
 }

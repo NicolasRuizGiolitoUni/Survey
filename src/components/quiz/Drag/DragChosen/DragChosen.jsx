@@ -1,63 +1,21 @@
 import React, { useState } from "react";
-import { Draggable, Droppable, DragDropContext } from "react-beautiful-dnd";
 import { doc, updateDoc, getDoc } from "firebase/firestore/lite";
 import { db } from "../../../../db/db"; // Adjust the path as necessary
 import "./DragChosen.css";
 
 const DragChosen = ({ apps, setApps, docId, next }) => {
-  const [chosenApps, setChosenApps] = useState([]);
-  const [chooseReason, setChooseReason] = useState("");
-  const [wordCount, setWordCount] = useState(0);
+  const [chooseReason, setChooseReason] = useState(""); // State to store the reason
   const [showMessage, setShowMessage] = useState("");
-  const [isReasonSubmitted, setIsReasonSubmitted] = useState(false); // Tracks if reason is submitted
 
-  // Calculate word count by splitting the text by spaces and filtering out empty strings
-  const calculateWordCount = (text) => {
-    return text.trim().split(/\s+/).filter(Boolean).length;
-  };
-
-  const handleDisabledNextClick = () => {
-    setShowMessage("Please submit the reason for choosing your apps.");
-    setTimeout(() => setShowMessage(""), 3000);
-  };
-
-  const handleDragEnd = (result) => {
-    const { source, destination } = result;
-    if (!destination) return;
-    if (
-      source.droppableId === "appsContainer" &&
-      destination.droppableId === "chosenContainer"
-    ) {
-      const appToChoose = apps[source.index];
-      setApps((prevApps) =>
-        prevApps.filter(
-          (app) => app.id.toString() !== appToChoose.id.toString()
-        )
-      );
-      setChosenApps((prevChosenApps) => [...prevChosenApps, appToChoose]);
-    } else if (
-      source.droppableId === "chosenContainer" &&
-      destination.droppableId === "appsContainer"
-    ) {
-      const appToRestore = chosenApps[source.index];
-      setChosenApps((prevChosenApps) =>
-        prevChosenApps.filter(
-          (app) => app.id.toString() !== appToRestore.id.toString()
-        )
-      );
-      setApps((prevApps) => [...prevApps, appToRestore]);
-    }
-  };
-
+  // Handle change in reason input
   const handleChangeReason = (e) => {
-    const newReason = e.target.value;
-    setChooseReason(newReason);
-    setWordCount(calculateWordCount(newReason)); // Calculate word count dynamically
+    setChooseReason(e.target.value);
   };
 
+  // Handle form submission
   const handleSubmit = async () => {
-    if (wordCount < 50) {
-      setShowMessage("Please enter at least 50 words.");
+    if (chooseReason === "") {
+      setShowMessage("Please enter a reason.");
       setTimeout(() => setShowMessage(""), 3000);
       return;
     }
@@ -68,7 +26,7 @@ const DragChosen = ({ apps, setApps, docId, next }) => {
       // Create an object with all the chosen app names and the reason
       const finalChosenApps = {
         apps: apps.map((app) => app.name), // Array of app names
-        reason: chooseReason, // The same reason for all apps
+        reason: chooseReason, // The reason for all apps
       };
 
       // Save the structure in Firestore
@@ -76,13 +34,14 @@ const DragChosen = ({ apps, setApps, docId, next }) => {
         finalChosenApps: finalChosenApps,
       });
 
-      setIsReasonSubmitted(true); // Mark as submitted
-
-      // Log the updated document
+      // Log the updated document (optional)
       const updatedDoc = await getDoc(docRef);
       console.log("Updated document:", updatedDoc.data());
 
+      setShowMessage("Submitted successfully!");
       setTimeout(() => setShowMessage(""), 3000);
+
+      // Move to the next step
       next();
     } catch (error) {
       console.error("Error updating document:", error);
@@ -99,58 +58,35 @@ const DragChosen = ({ apps, setApps, docId, next }) => {
         Tell us why these are the most important apps for you.{" "}
         <strong>
           Why do you think you can't live without them? What value do they offer
-          you?{" "}
+          you?
         </strong>
       </p>
 
       <textarea
-        placeholder="Enter at least 50 words."
+        placeholder="Enter your reason."
         id="reason"
         value={chooseReason}
         onChange={handleChangeReason}
+        className="reason-input"
       ></textarea>
 
       <button
-        className={`add-button ${wordCount < 50 ? "disabled" : ""}`}
+        className={`add-button ${!chooseReason.trim() ? "disabled" : ""}`} // Disable the button if no reason is entered
         onClick={handleSubmit}
       >
         Submit
       </button>
 
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="appsContainer">
-          {(provided) => (
-            <div
-              id="apps-chosen"
-              className="apps-container"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {apps.map((app, index) => (
-                <Draggable
-                  key={app.id.toString()}
-                  draggableId={app.id.toString()}
-                  index={index}
-                >
-                  {(provided) => (
-                    <div
-                      className="app-item"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <div className="app-name">
-                        {index + 1}. {app.name}
-                      </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+      {/* Display chosen apps */}
+      <div id="apps-chosen" className="apps-container">
+        {apps.map((app, index) => (
+          <div className="app-item" key={app.id}>
+            <div className="app-name">
+              {index + 1}. {app.name}
             </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+          </div>
+        ))}
+      </div>
 
       {showMessage && <div className="message">{showMessage}</div>}
     </>
