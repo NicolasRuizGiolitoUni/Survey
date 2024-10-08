@@ -8,6 +8,7 @@ export const data = [
       { text: "35-44" },
       { text: "45-54" },
       { text: "55+" },
+      { text: "Prefer not to say" },
     ],
   },
   {
@@ -148,12 +149,7 @@ export const data = [
       { text: "Extremely dependent" },
     ],
   },
-  {
-    question:
-      "Imagine you had to live without your smartphone for a week. What aspects of your daily life would be most affected? (e.g., communictating with loved ones, work, studies, etc)",
-    type: "open",
-    placeholder: "Type here",
-  },
+
   {
     question:
       "Have you ever considered switching to a non-smartphone (e.g., a basic phone or feature phone)?",

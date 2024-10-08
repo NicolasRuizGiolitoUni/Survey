@@ -16,7 +16,7 @@ const DragOS = ({ next, back, docId }) => {
       try {
         const docRef = doc(db, "surveyResponses", docId);
         await updateDoc(docRef, {
-          os: selectedOS,
+          OS: selectedOS,
         });
 
         console.log("Selected OS:", selectedOS);
