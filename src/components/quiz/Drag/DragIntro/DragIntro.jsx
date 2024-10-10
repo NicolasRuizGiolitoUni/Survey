@@ -3,7 +3,7 @@ import React from "react";
 const DragIntro = ({ next }) => {
   return (
     <>
-      <h2 className="title">What apps can't you live without?</h2>
+      <h2 className="title">Scenario</h2>
       <hr></hr>
       <p className="paragraph">
         Imagine your current smartphone breaks and you are given a new one.{" "}

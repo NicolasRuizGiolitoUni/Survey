@@ -29,7 +29,7 @@ const HomePage = () => {
   return (
     <div className="container">
       <header>
-        <h1>Not-Too-Dumb Phone Survey</h1>
+        <h1>Minimalist Smartphone Survey</h1>
       </header>
       <div className="card">
         {error ? (

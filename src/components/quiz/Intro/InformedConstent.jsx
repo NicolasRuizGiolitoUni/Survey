@@ -33,7 +33,7 @@ const Intro = ({ goToNextComponent, setDocId }) => {
       </h3>
       <p className="paragraph">
         Dear particpant of the survey, we ask for your consent to participate in
-        the scientific research project "Not-Too-Dumb Phone Survey" and the
+        the scientific research project "Minimalist Smartphone Survey" and the
         involved processing of your personal data. For this reason you receive
         the following information about the content and the sequence of the
         scientific research project as well as the intended use of your data:
@@ -50,7 +50,7 @@ const Intro = ({ goToNextComponent, setDocId }) => {
       <div className="consent-paragraph">
         <p className="consent-title">
           {" "}
-          What ist the exact procedure for the scientific research project?
+          What is the exact procedure for the scientific research project?
         </p>
         <p className="paragraph">
           Your participation in the study will probably take about 10-15 minutes
@@ -182,7 +182,7 @@ const Intro = ({ goToNextComponent, setDocId }) => {
           <a href="https://www.cais-research.de/en/home/" target="_blank">
             Center for Advanced Internet Studies (CAIS) GmbH.
           </a>{" "}
-          The person responsible for data processing is Dr. Adithya Kumar
+          The person responsible for data processing is Dr. Aditya Kumar
           Purohit. If you have any questions about the scientific research
           project or the associated data processing, please contact him at the
           following address: aditya.purohit@cais-research.de
