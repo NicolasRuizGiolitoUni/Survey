@@ -25,6 +25,12 @@
   color: white;
 }
 
+.other {
+  width: 70%;
+  align-self: center;
+  border: black;
+}
+
 /* Styles for phones */
 @media (max-width: 425px) {
   .card .subtitle {
