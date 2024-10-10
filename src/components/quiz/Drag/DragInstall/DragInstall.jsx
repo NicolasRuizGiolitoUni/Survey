@@ -56,7 +56,6 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       await updateDoc(docRef, {
         Selected_apps: appsToSave,
       });
-      console.log("Apps updated in Firestore:", appsToSave);
     } catch (error) {
       console.error("Error updating document:", error);
     }
@@ -135,7 +134,7 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
       />
       <textarea
         type="text"
-        placeholder="Why is this app indispensable for you? Enter at least 50 words"
+        placeholder="Why is this app indispensable for you?"
         value={appReason}
         onChange={handleChangeReason}
         id="reason"
@@ -159,7 +158,7 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
           >
             <span
               onClick={() => moveUp(index)}
-              className="material-symbols-outlined"
+              className="material-symbols-outlined arrow"
             >
               arrow_upward
             </span>
@@ -168,7 +167,7 @@ const DragInstall = ({ next, back, apps, setApps, docId }) => {
             </div>
             <span
               onClick={() => moveDown(index)}
-              className="material-symbols-outlined"
+              className="material-symbols-outlined arrow"
             >
               arrow_downward
             </span>

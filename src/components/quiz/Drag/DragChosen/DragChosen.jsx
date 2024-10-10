@@ -36,7 +36,6 @@ const DragChosen = ({ apps, setApps, docId, next }) => {
 
       // Log the updated document (optional)
       const updatedDoc = await getDoc(docRef);
-      console.log("Updated document:", updatedDoc.data());
 
       setShowMessage("Submitted successfully!");
       setTimeout(() => setShowMessage(""), 3000);

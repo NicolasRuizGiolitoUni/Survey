@@ -126,6 +126,9 @@ input {
   cursor: pointer;
 }
 
+.arrow {
+  color: #7c7b7b;
+}
 /* Styles for phones */
 @media (max-width: 425px) {
   .apps-container {

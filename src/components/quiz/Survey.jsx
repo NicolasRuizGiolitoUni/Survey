@@ -56,7 +56,6 @@ const Survey = ({ goToNextComponent, goToPreviousComponent, docId }) => {
     const docRef = doc(db, "surveyResponses", docId);
     try {
       await updateDoc(docRef, { Questionnaire: updatedResponses });
-      console.log("Responses updated in Firestore");
     } catch (error) {
       console.error("Error updating responses in Firestore:", error);
     }
@@ -72,7 +71,6 @@ const Survey = ({ goToNextComponent, goToPreviousComponent, docId }) => {
       setIndex(index + 1);
       setSelectedAnswers([]);
       setOpenAnswer("");
-      console.log("Current Responses:", responses);
     }
   };
 

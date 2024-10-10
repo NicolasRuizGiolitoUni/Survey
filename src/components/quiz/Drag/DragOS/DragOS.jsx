@@ -19,9 +19,6 @@ const DragOS = ({ next, back, docId }) => {
           OS: selectedOS,
         });
 
-        console.log("Selected OS:", selectedOS);
-        console.log("Document ID:", docId);
-
         next();
       } catch (error) {
         console.error("Error updating document:", error);

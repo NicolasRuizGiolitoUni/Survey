@@ -15,7 +15,7 @@ function DragQuestion({ next, back, docId }) {
         await updateDoc(docRef, {
           Living_without_phone: answer,
         });
-        console.log("Living without phone added to Firestore:", answer);
+
         next();
       } catch (error) {
         console.error("Error updating document:", error);

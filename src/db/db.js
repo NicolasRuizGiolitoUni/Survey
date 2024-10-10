@@ -24,9 +24,6 @@ const devConfig = {
 const firebaseConfig =
   import.meta.env.MODE === "production" ? prodConfig : devConfig;
 
-// Log the selected Firebase project ID to the console for verification
-console.log("Firebase Project ID:", firebaseConfig.projectId);
-
 // Initialize Firebase and Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);

@@ -49,7 +49,6 @@ const DragDelete = ({
     try {
       const docRef = doc(db, "surveyResponses", docId);
       await updateDoc(docRef, { Deleted_apps: deletedApps });
-      console.log("Deleted apps saved to Firestore:", deletedApps);
     } catch (error) {
       console.error("Error updating deleted apps:", error);
     }
